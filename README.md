@@ -15,7 +15,7 @@
 
 ### Лабораторные работы  
 
-ЛР 0:   
+ЛР 0:https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR0.pdf  
 ЛР 1:  
 
 ### Дедлайн
