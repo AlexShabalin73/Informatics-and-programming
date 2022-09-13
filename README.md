@@ -21,5 +21,9 @@
 ### Дедлайн
 Лабораторная работа 0: 28.09.2022  
   
-### Полезные материалы
-**ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus
+### Полезные курсы
+**Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
+
+### Полезные матриалы  
+**Введение в C++** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/Intro.pdf  
+**Арифметика** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/Arifmetics.pdf  
