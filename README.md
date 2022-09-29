@@ -22,7 +22,7 @@
 ЛР 1: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR1.pdf
 
 ### Дедлайн
-Лабораторная работа 0: 28.09.2022  
+Лабораторная работа 0: 5.10.2022  
   
 ### Полезные курсы
 **Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
