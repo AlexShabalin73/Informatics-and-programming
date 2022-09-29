@@ -14,7 +14,8 @@
 **ПРИ**: Вторник 1 пара 3/118 и 2 пара 503
 
 ### Семинары  
-Семинар 1. https://informatics.msk.ru/mod/statements/view.php?id=51642#1
+Семинар 1. https://informatics.msk.ru/mod/statements/view.php?id=51642#1  
+Семинар 2. https://informatics.msk.ru/mod/statements/view.php?id=65602#1
 
 ### Лабораторные работы  
 
