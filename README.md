@@ -33,6 +33,11 @@
 Лабораторная работа 4: 30.11.2022  
 Лабораторная работа 5: 14.12.2022  
 Лабораторная работа 6: 28.12.2022  
+
+### Журнал  
+https://docs.google.com/spreadsheets/d/10uyVl2BCmPbLUSVDtcWC82_j_6bYOQNGlDiEx0QL7pg/edit?usp=sharing  
+
+
 ### Полезные курсы
 **Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
 **Гарвардский курс для начинающих программистов CS-50** https://javarush.ru/quests/QUEST_HARVARD_CS50
