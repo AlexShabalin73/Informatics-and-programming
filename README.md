@@ -20,6 +20,7 @@
 Семинар 1. https://informatics.msk.ru/mod/statements/view.php?id=51642#1  
 Семинар 2. https://informatics.msk.ru/mod/statements/view.php?id=65602#1  
 Семинар 3. https://informatics.msk.ru/mod/statements/view.php?id=76131#1  
+Семинар 4. https://informatics.msk.ru/mod/statements/view.php?id=66211#1  
 
 ### Лабораторные работы  
 
