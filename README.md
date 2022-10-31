@@ -54,7 +54,7 @@ https://docs.google.com/spreadsheets/d/10uyVl2BCmPbLUSVDtcWC82_j_6bYOQNGlDiEx0QL
 **Манипуляторы и точность вывода** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/precision%20and%20width.pdf  
 **Условная конструкция. Логические операции** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/logic.pdf  
 **Циклы** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/cycles.pdf     
-** Массивы в языке С** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/C%20array.pdf  
+**Массивы в языке С** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/C%20array.pdf  
 
 
 
