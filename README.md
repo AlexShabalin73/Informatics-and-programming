@@ -28,6 +28,7 @@
 ЛР 1: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR1.pdf  
 ЛР 2: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR2.pdf  
 ЛР 3: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR3.pdf  
+ЛР 4: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR4.pdf  
 
 
 ### Дедлайн
