@@ -24,6 +24,9 @@
 Семинар 3. https://informatics.msk.ru/mod/statements/view.php?id=76131#1  
 Семинар 4. https://informatics.msk.ru/mod/statements/view.php?id=66211#1  
 
+### Контрольная работа  
+10.11.22 https://contest.yandex.ru/contest/33494/enter/  
+
 ### Лабораторные работы  
 
 ЛР 0:https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR0.pdf  
