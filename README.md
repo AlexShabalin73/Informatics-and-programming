@@ -73,3 +73,5 @@ C++ — это замечательно, и вот почему https://habr.com
 Введение в технику оптимизации циклов https://habr.com/ru/post/124910/  
 Массивы в С https://prog-cpp.ru/c-massiv/  
 Массивы в С++ https://habr.com/ru/post/495444/  
+Разбираемся в рекурсии https://habr.com/ru/post/521100/  
+Как работает рекурсия – объяснение в блок-схемах и видео  https://habr.com/ru/post/337030/  
