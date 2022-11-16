@@ -16,7 +16,7 @@
 **МОАИС** понедельник: 2 пара 3/127 Вторник: 3 пара 3/127  
 **ПРИ**: Вторник 1 пара 3/118 и 2 пара 503
 
-###<a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/%D0%9A%D0%B0%D0%BA%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.pdf">Как задавать вопросы, чтобы получить максимум пользы от них</a>  
+### <a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/%D0%9A%D0%B0%D0%BA%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.pdf">Как задавать вопросы, чтобы получить максимум пользы от них</a>  
   
 ### Семинары  
 Семинар 1. https://informatics.msk.ru/mod/statements/view.php?id=51642#1  
