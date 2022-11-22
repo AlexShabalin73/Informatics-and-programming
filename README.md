@@ -34,6 +34,7 @@
 ЛР 2: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR2.pdf  
 ЛР 3: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR3.pdf  
 ЛР 4: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR4.pdf  
+ЛР 5: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/Labs/LR5.pdf 
 
 
 ### Дедлайн
@@ -64,7 +65,7 @@ https://docs.google.com/spreadsheets/d/10uyVl2BCmPbLUSVDtcWC82_j_6bYOQNGlDiEx0QL
 **Функции** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/function.pdf  
 **Передача параметров в функцию** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/param_func.pdf  
 **Рекурсия** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/Recursion.pdf  
-
+**Строки** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/str.pdf  
 
 
 ### Статьи
@@ -78,3 +79,4 @@ C++ — это замечательно, и вот почему https://habr.com
 Массивы в С++ https://habr.com/ru/post/495444/  
 Разбираемся в рекурсии https://habr.com/ru/post/521100/  
 Как работает рекурсия – объяснение в блок-схемах и видео  https://habr.com/ru/post/337030/  
+Ловушки языка С++ https://habr.com/ru/post/154033/  
