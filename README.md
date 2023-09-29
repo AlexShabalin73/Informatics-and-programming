@@ -42,11 +42,12 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ### Журнал  
 https://docs.google.com/spreadsheets/d/1t7pTMZtf3xcVoFSd-drkxujFhiKXX8S-1RbldG1fRBI/edit?usp=sharing  
 
-
+### Лекторий ФПМИ МФТИ  
+<a href = "https://www.youtube.com/watch?v=xqYk9yL5hb4&list=PL4_hYwCyhAva5l0ouyLxGMdoUB15Cekfm">Лекция 1. Программирование на языке C++ 1. Введение в C++, базовые типы и поддерживаемые операции </a>  
 
 ### Полезные курсы
 **Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
-**Гарвардский курс для начинающих программистов CS-50** https://javarush.ru/quests/QUEST_HARVARD_CS50
+**Гарвардский курс для начинающих программистов CS-50** https://javarush.ru/quests/QUEST_HARVARD_CS50  
 
 ### Полезные матриалы  
 **Введение в C++** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2022-2023/c%2B%2B/Intro.pdf  
