@@ -30,7 +30,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ### Лабораторные работы  
 
 ЛР 0:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-2024/LR/LR0.pdf  
-ЛР 1: 
+ЛР 1:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-2024/LR/LR1.pdf  
 
 
 ### Дедлайн
