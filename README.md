@@ -40,6 +40,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 Амнистия: 28.12.2023  
 
 ### Журнал  
+https://docs.google.com/spreadsheets/d/1t7pTMZtf3xcVoFSd-drkxujFhiKXX8S-1RbldG1fRBI/edit?usp=sharing  
 
 
 
