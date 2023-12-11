@@ -36,6 +36,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 Задание лабораторной работы 4 разделено на два файла, задачи на informatics в конце второго файла:  
 https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-2024/LR/LR4_1.pdf  
 https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-2024/LR/LR4_2.pdf  
+ЛР 5: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-2024/LR/LR5.pdf  
 
 
 ### Дедлайн
@@ -44,8 +45,9 @@ https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2023-202
 Лабораторная работа 2: 4.11.2023  
 Лабораторная работа 3: 24.11.2023  
 Лабораторная работа 4: 8.12.2023  
+Лабораторная работа 5: 22.12.2023  
 
-Амнистия: 28.12.2023  
+Амнистия: 26.12.2023 (По расписанию 1 -3 пара 1/301)  
 
 ### Журнал  
 https://docs.google.com/spreadsheets/d/1t7pTMZtf3xcVoFSd-drkxujFhiKXX8S-1RbldG1fRBI/edit?usp=sharing  
