@@ -9,7 +9,7 @@
   
 **Лабораторные работы**  
 1 неделя:  
-**МОАИС**  
+**МОАИС**  Вторник 2, 3 пары 3/115
 **ПРИ**   
   
 2 неделя:  
@@ -30,7 +30,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ### Лабораторные работы  
 
 ЛР 0:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR0.pdf    
-ЛР 1: 
+ЛР 1:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR1.pdf  
 
 
 
