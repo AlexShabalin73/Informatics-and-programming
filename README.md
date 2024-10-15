@@ -37,6 +37,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ### Дедлайн
 Лабораторная работа 0: 1.10.2024  
 Лабораторная работа 1: 11.10.2024  
+Лабораторная работа 2: 29.10.2024  
 
 
 Амнистия:  
