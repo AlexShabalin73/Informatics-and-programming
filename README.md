@@ -31,6 +31,8 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 
 ЛР 0:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR0.pdf    
 ЛР 1:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR1.pdf  
+ЛР 2:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR2.pdf  
+ЛР 3:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR3.pdf  
 
 
 
@@ -38,6 +40,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 Лабораторная работа 0: 1.10.2024  
 Лабораторная работа 1: 11.10.2024  
 Лабораторная работа 2: 29.10.2024  
+Лабораторная работа 3: 15.11.2024  
 
 
 Амнистия:  
