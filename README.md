@@ -35,7 +35,9 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ЛР 3:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR3.pdf  
 ЛР 4:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR4_1.pdf  
 https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR4_2.pdf  
-
+ЛР 5:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR5.pdf  
+  
+ЛР*: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR.pdf  
 
 
 ### Дедлайн
@@ -43,10 +45,12 @@ https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-202
 Лабораторная работа 1: 11.10.2024  
 Лабораторная работа 2: 29.10.2024  
 Лабораторная работа 3: 15.11.2024  
-Лабораторная работа 4: 2.12.2024  
+Лабораторная работа 4: 6.12.2024  
+Лабораторная работа 5: 17.12.2024  
+Лабораторная работа*: 20.12.2024  
 
 
-Амнистия:  
+Амнистия: с 17 по 24 декабря. LR* для тех кто хочет успеть закрыть долги в этом семестре.  
 
 ### Журнал  
 
