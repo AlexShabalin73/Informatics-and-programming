@@ -19,7 +19,7 @@
 ### Самый простой способ склонировать репозиторий используя GitHub Desktop https://desktop.github.com/  
 https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop  
 
-### <a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/%D0%9A%D0%B0%D0%BA%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.pdf">Как задавать вопросы, чтобы получить максимум пользы от них</a>  
+### <a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/%D0%9A%D0%B0%D0%BA%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.pdf">Как задавать вопросы, чтобы получить максимум пользы от них</a>  
   
 ### Семинары  
 Семинар 1.    
@@ -50,7 +50,9 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 **Гарвардский курс для начинающих программистов CS-50** https://javarush.ru/quests/QUEST_HARVARD_CS50  
 
 ### Полезные матриалы  
-**Введение в C++**  
+<a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/1.%20Intro.pdf">**Введение в C++**</a>  
+<a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/2.%20Arifmetics.pdf">**Простые арфиметические операции**</a>  
+<a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/3.%20cout%20C%2B%2B.pdf">**Вывод в консоль**</a>  
 
 
 ### Статьи
