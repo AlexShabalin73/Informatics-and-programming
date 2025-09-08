@@ -9,7 +9,7 @@
   
 **Лабораторные работы**  
 1 неделя:  
-**МОАИС**  Вторник 2, 3 пары 3/115
+**МОАИС**  
 **ПРИ**   
   
 2 неделя:  
@@ -29,29 +29,14 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 
 ### Лабораторные работы  
 
-ЛР 0:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR0.pdf    
-ЛР 1:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR1.pdf  
-ЛР 2:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR2.pdf  
-ЛР 3:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR3.pdf  
-ЛР 4:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR4_1.pdf  
-https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR4_2.pdf  
-ЛР 5:  https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR5.pdf  
-  
-ЛР*: https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/LR/LR.pdf  
+ЛР 0:  
 
 
 ### Дедлайн
-Лабораторная работа 0: 1.10.2024  
-Лабораторная работа 1: 11.10.2024  
-Лабораторная работа 2: 29.10.2024  
-Лабораторная работа 3: 15.11.2024  
-Лабораторная работа 4: 6.12.2024  
-Лабораторная работа 5: 17.12.2024  
-Лабораторная работа*: 20.12.2024  
+Лабораторная работа 0: 
 
 
-Амнистия: с 17 по 24 декабря. LR* для тех кто хочет успеть закрыть долги в этом семестре.  
-
+Амнистия: 
 ### Журнал  
 
 
@@ -65,17 +50,7 @@ https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-202
 **Гарвардский курс для начинающих программистов CS-50** https://javarush.ru/quests/QUEST_HARVARD_CS50  
 
 ### Полезные матриалы  
-**Введение в C++** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/c%2B%2B/Intro.pdf  
-**Арифметика** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/c%2B%2B/Arifmetics.pdf  
-**Вывод в С++** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/c%2B%2B/cout%20C%2B%2B.pdf  
-**Манипуляторы и точность вывода** https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2024-2025/c%2B%2B/precision%20and%20width.pdf  
-**Условная конструкция. Логические операции**   
-**Циклы**      
-**Массивы в языке С**   
-**Функции**   
-**Передача параметров в функцию**   
-**Рекурсия**   
-**Строки**   
+**Введение в C++**  
 
 
 ### Статьи
