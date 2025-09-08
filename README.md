@@ -29,11 +29,11 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 
 ### Лабораторные работы  
 
-ЛР 0:  
+ЛР 0: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR0.pdf">Лабораторная работа 0 </a>  
 
 
 ### Дедлайн
-Лабораторная работа 0: 
+Лабораторная работа 0: 23.09.2025  
 
 
 Амнистия: 
