@@ -22,10 +22,7 @@ https://docs.github.com/ru/desktop/contributing-and-collaborating-using-github-d
 ### <a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/%D0%9A%D0%B0%D0%BA%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%B2%D0%B0%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B.pdf">Как задавать вопросы, чтобы получить максимум пользы от них</a>  
   
 ### Семинары  
-Семинар 1.    
-
-### Контрольная работа  
-  
+<a href ="https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Seminar/Sem1.pdf">Семинар 1</a>  
 
 ### Лабораторные работы  
 
