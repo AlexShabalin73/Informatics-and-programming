@@ -13,6 +13,8 @@
 Лабораторная работа 1: 7.10.2025  
 
 ### Теоретические матриалы  
+<a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR0_teoriya_cpp.html">Теория ЛР0 </a>  
+<a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR1_teoriya_cpp.html">Теория ЛР1 </a>  
 
 ### Полезные курсы
 **Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
