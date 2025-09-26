@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЛР1 — Теория: Условный оператор и логические операции</title>
+  <style>
+    :root {
+      --bg: #0f172a; --panel: #111827; --text: #e5e7eb; --muted: #94a3b8;
+      --brand: #60a5fa; --ok:#34d399; --warn:#f59e0b; --err:#f87171; --code:#0b1021; --border:#1f2937; --radius:14px;
+    }
+    html, body { height:100%; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Ubuntu, Cantarell, Helvetica, Arial; background: var(--bg); color: var(--text); line-height: 1.55; }
+    a{color:var(--brand)}
+    .layout{display:grid; grid-template-columns:280px 1fr; gap:24px; max-width:1200px; margin:0 auto; padding:24px}
+    nav{position:sticky; top:16px; align-self:start; background:var(--panel); padding:16px; border:1px solid var(--border); border-radius:var(--radius)}
+    nav h2{margin:0 0 8px; font-size:16px; color:var(--muted); font-weight:600; letter-spacing:.02em}
+    nav ul{list-style:none; padding:0; margin:0}
+    nav a{display:block; padding:6px 8px; border-radius:8px}
+    nav a:hover{background:rgba(96,165,250,.12)}
+    main{background:var(--panel); padding:24px; border:1px solid var(--border); border-radius:var(--radius)}
+    h1{margin-top:0; font-size:28px}
+    h2{margin-top:40px; font-size:22px; border-top:1px solid var(--border); padding-top:24px}
+    h3{margin-top:16px; font-size:18px; color:#cbd5e1}
+    p,li{color:#d1d5db}
+    .kicker{color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-size:12px}
+    .lead{color:#e2e8f0; font-size:18px; margin:6px 0 12px}
+    .admonition{border:1px solid var(--border); border-left:4px solid var(--brand); background:rgba(96,165,250,.09); padding:12px 14px; border-radius:10px; margin:16px 0}
+    .admonition.tip{border-left-color:var(--ok); background:rgba(52,211,153,.08)}
+    .admonition.warn{border-left-color:var(--warn); background:rgba(245,158,11,.08)}
+    .admonition.err{border-left-color:var(--err); background:rgba(248,113,113,.08)}
+    .admonition .title{font-weight:700; margin-bottom:6px}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    pre{background:var(--code); border:1px solid var(--border); border-radius:12px; padding:14px; overflow:auto}
+    table{width:100%; border-collapse:collapse}
+    th,td{border:1px solid var(--border); padding:8px 10px; text-align:left}
+    thead th{background:#0b1224}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h2>Содержание</h2>
+      <ul id="toc"></ul>
+    </nav>
+
+    <main>
+      <header>
+        <div class="kicker">Лабораторная работа 1 — теория</div>
+        <h1>Условный оператор и логические операции</h1>
+        <p class="lead">Страница для тех, кто только начинает программировать: как работают <code>if / else if / else</code>, логические операции <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, как правильно проверять диапазоны, что такое <strong>short‑circuit</strong>, как избегать типичных ошибок и как тестировать решения.</p>
+      </header>
+
+      <section id="bool-basics">
+        <h2>1. Булевы значения и сравнения</h2>
+        <p><strong>Булев тип</strong> <code>bool</code> хранит только два значения: <code>true</code> и <code>false</code>. Он получается из сравнений и логических выражений и управляет ветвлениями программы.</p>
+        <h3>1.1. Вывод и человекочитаемый формат</h3>
+        <p>По умолчанию <code>bool</code> печатается как <code>1</code>/<code>0</code>. Включите <code>std::boolalpha</code>, чтобы увидеть <code>true</code>/<code>false</code>:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main(){
+    bool a = (3 &lt; 5); // true
+    std::cout &lt;&lt; a &lt;&lt; "
+";                  // 1
+    std::cout &lt;&lt; std::boolalpha &lt;&lt; a &lt;&lt; "
+"; // true
+}
+</code></pre>
+        <h3>1.2. Неявные приведения к bool</h3>
+        <ul>
+          <li>Ноль для целых/вещественных и <code>nullptr</code> для указателей считаются <code>false</code>, всё остальное — <code>true</code>.</li>
+          <li>Для новичков понятнее писать явные сравнения: <code>if (x != 0)</code> вместо просто <code>if (x)</code>.</li>
+        </ul>
+        <h3>1.3. Операции сравнения</h3>
+        <p>Сравнения возвращают <code>bool</code>: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>. <strong>Не путайте</strong> присваивание <code>=</code> и сравнение <code>==</code>.</p>
+<pre><code class="language-cpp">int x = 5;
+if (x = 0) { /* ОШИБКА: присваивание, условие всегда false */ }
+if (x == 0) { /* верное сравнение */ }
+</code></pre>
+        <h3>1.4. Таблицы истинности и приоритеты</h3>
+        <table>
+          <thead><tr><th>A</th><th>B</th><th>!A</th><th>A &amp;&amp; B</th><th>A || B</th></tr></thead>
+          <tbody>
+            <tr><td>false</td><td>false</td><td>true</td><td>false</td><td>false</td></tr>
+            <tr><td>false</td><td>true</td><td>true</td><td>false</td><td>true</td></tr>
+            <tr><td>true</td><td>false</td><td>false</td><td>false</td><td>true</td></tr>
+            <tr><td>true</td><td>true</td><td>false</td><td>true</td><td>true</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Приоритеты</strong> (от большего к меньшему): <code>!</code> → сравнения → <code>&amp;&amp;</code> → <code>||</code>. В сложных условиях <em>всегда ставьте скобки</em>:</p>
+<pre><code class="language-cpp">bool ok = (a &gt;= 0) &amp;&amp; (a &lt;= 10) || admin; // лучше так:
+bool in = (a &gt;= 0) &amp;&amp; (a &lt;= 10);
+bool ok2 = in || admin; // читается проще
+</code></pre>
+        <h3>1.5. Законы де Моргана</h3>
+        <p>Полезные преобразования отрицаний:</p>
+<pre><code class="language-cpp">// !(A &amp;&amp; B) эквивалентно (!A) || (!B)
+// !(A || B) эквивалентно (!A) &amp;&amp; (!B)
+bool bad = !(age &gt;= 18 &amp;&amp; citizen);
+bool same = (age &lt; 18) || (!citizen);
+</code></pre>
+      </section>
+
+      <section id="range-why-wrong">
+        <h2>2. Почему <code>0 ≤ x ≤ 10</code> в C++ «не работает»</h2>
+        <p>В C++ нет «двойного сравнения» как в математике. Выражение <code>0 &lt;= x &lt;= 10</code> вычисляется слева направо и превращается в сравнение <code>bool</code> с числом.</p>
+<pre><code class="language-cpp">(0 &lt;= x)         // bool: 0 или 1
+(0 &lt;= x) &lt;= 10   // 0/1 &lt;= 10 → всегда true
+</code></pre>
+        <h3>2.1. Готовые шаблоны диапазонов</h3>
+<pre><code class="language-cpp">bool in_closed(int x, int a, int b) { return (x &gt;= a) &amp;&amp; (x &lt;= b); }  // [a, b]
+bool in_semi(int x, int a, int b)   { return (x &gt;= a) &amp;&amp; (x &lt;  b); }  // [a, b)
+bool in_open (int x, int a, int b)  { return (x &gt;  a) &amp;&amp; (x &lt;  b); }  // (a, b)
+</code></pre>
+        <h3>2.2. Вещественные границы и допуск</h3>
+        <p>Для <code>double</code> используйте допуск <code>eps</code>, потому что двоичное представление дробей неточно:</p>
+<pre><code class="language-cpp">bool in_closed(double x, double a, double b, double eps = 1e-9){
+    return (x &gt;= a - eps) &amp;&amp; (x &lt;= b + eps);
+}
+</code></pre>
+        <h3>2.3. Когда уместен «беззнаковый трюк»</h3>
+        <p>Для неотрицательных целых можно проверить только верхнюю границу: <code>static_cast&lt;unsigned&gt;(x) &lt;= b</code>. Этот трюк <em>нельзя</em> применять, если нижняя граница не ноль или если возможны отрицательные значения.</p>
+        <h3>2.4. Композиция условий</h3>
+<pre><code class="language-cpp">bool in_len = (len &gt;= 1) &amp;&amp; (len &lt;= 100);
+bool is_digit = ('0' &lt;= ch) &amp;&amp; (ch &lt;= '9');
+bool ok = in_len &amp;&amp; is_digit; // читаемо и проверяемо
+</code></pre>
+      </section>
+
+      <section id="short-circuit">
+        <h2>3. Порядок вычислений и short‑circuit</h2>
+        <p><strong>Short‑circuit</strong> — правая часть <em>не вычисляется</em>, если результат уже известен по левой.</p>
+        <ul>
+          <li><code>A &amp;&amp; B</code>: если <code>A == false</code>, <code>B</code> не исполняется.</li>
+          <li><code>A || B</code>: если <code>A == true</code>, <code>B</code> не исполняется.</li>
+        </ul>
+        <h3>3.1. Примеры «безопасных» проверок</h3>
+<pre><code class="language-cpp">// 1) Индекс и доступ к вектору
+if (i &lt; v.size() &amp;&amp; v[i] == 0) { /* безопасно */ }
+
+// 2) Деление на ноль
+if (den != 0 &amp;&amp; num % den == 0) { /* деление без остатка */ }
+
+// 3) Указатель
+if (ptr != nullptr &amp;&amp; *ptr &gt; 0) { /* можно разыменовать */ }
+</code></pre>
+        <h3>3.2. Побочные эффекты и порядок вызовов</h3>
+        <p>Не полагайтесь на правую часть ради побочного эффекта — она может не выполниться.</p>
+<pre><code class="language-cpp">bool heavy(); // что‑то дорогое
+if (fast_check() || heavy()) { /* heavy не вызовется, если fast_check()==true */ }
+</code></pre>
+        <h3>3.3. Скобки — всегда</h3>
+        <p><code>&amp;&amp;</code> выполняется раньше <code>||</code>, но пишите скобки для ясности:</p>
+<pre><code class="language-cpp">bool ok = (age &gt;= 18) &amp;&amp; (has_id || with_parent);
+</code></pre>
+      </section>
+
+      <section id="branching">
+        <h2>4. Как правильно строить ветвления</h2>
+        <h3>4.1. Последовательность условий</h3>
+        <ul>
+          <li>Сначала обрабатывайте граничные/ошибочные случаи, затем — нормальный ход.</li>
+          <li>В цепочке <code>if / else if / else</code> ставьте более узкие условия раньше.</li>
+        </ul>
+        <h3>4.2. Guard‑clauses (ранние возвраты)</h3>
+<pre><code class="language-cpp">int divide(int a, int b){
+    if (b == 0) return /* код ошибки */ -1; // guard
+    return a / b;                            // основной случай
+}
+</code></pre>
+        <h3>4.3. Именованные булевы условия</h3>
+<pre><code class="language-cpp">bool good_len = (len &gt;= 8) &amp;&amp; (len &lt;= 20);
+bool has_digit = ('0' &lt;= ch) &amp;&amp; (ch &lt;= '9');
+if (good_len &amp;&amp; has_digit) { /* ... */ }
+</code></pre>
+        <h3>4.4. Оператор <code>switch</code> по значениям</h3>
+<pre><code class="language-cpp">switch (menu){
+  case 1: std::cout &lt;&lt; "Start
+"; break;
+  case 2: std::cout &lt;&lt; "Settings
+"; break;
+  case 0: std::cout &lt;&lt; "Exit
+"; break;
+  default: std::cout &lt;&lt; "Unknown
+"; break;
+}
+</code></pre>
+        <h3>4.5. Условный оператор <code>?:</code></h3>
+        <p>Компактная форма выбора из двух значений:</p>
+<pre><code class="language-cpp">int abs_i = (x &gt;= 0) ? x : -x; // вместо if/else на одну строку
+</code></pre>
+      </section>
+
+      <section id="tests">
+        <h2>5. Мини‑чек‑лист тестирования для ЛР1</h2>
+        <ul>
+          <li>Сложные логические выражения — со скобками.</li>
+          <li>Для вещественных сравнений используйте допуск <code>EPS = 1e-9</code>.</li>
+          <li>В задачах IN/ON/OUT: сначала <strong>ON</strong>, потом <strong>IN</strong>, иначе <strong>OUT</strong>.</li>
+          <li>Числовой вывод — <code>std::fixed</code> + <code>std::setprecision(3)</code>.</li>
+          <li>На каждую задачу — минимум 3 граничных теста с короткими пояснениями.</li>
+        </ul>
+      </section>
+
+      <section id="mistakes">
+        <h2>6. Частые ошибки</h2>
+        <ul>
+          <li><code>0 &lt;= x &lt;= 10</code> вместо <code>0 &lt;= x &amp;&amp; x &lt;= 10</code>.</li>
+          <li><code>=</code> вместо <code>==</code> в условии.</li>
+          <li>Забыли скобки и перепутали приоритеты <code>&amp;&amp;</code> / <code>||</code>.</li>
+          <li>Сначала проверяют IN, а потом ON → граница уходит в «внутрь».</li>
+          <li>Сравнение <code>double</code> без допуска, «дрожащие» результаты.</li>
+          <li>Отсутствие проверки входных данных и сообщений об ошибках.</li>
+        </ul>
+      </section>
+
+      <footer>Версия страницы: ЛР1 — v0.2 (теория, без решений; пункты 5–7 удалены).</footer>
+    </main>
+  </div>
+
+  <script>
+    (function buildTOC(){
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('main h2, main h3');
+      headings.forEach(h => {
+        const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-zа-я0-9]+/gi,'-');
+        h.id = id; const li = document.createElement('li');
+        if(h.tagName === 'H3') li.style.paddingLeft = '14px';
+        const a = document.createElement('a'); a.href = '#' + id; a.textContent = h.textContent;
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
