@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЛР0 — Теория: Знакомство с C++ (для начинающих)</title>
+  <style>
+    :root {
+      --bg: #0f172a;          /* slate-900 */
+      --panel: #111827;       /* gray-900 */
+      --text: #e5e7eb;        /* gray-200 */
+      --muted: #94a3b8;       /* slate-400 */
+      --brand: #60a5fa;       /* blue-400 */
+      --ok: #34d399;          /* emerald-400 */
+      --warn: #f59e0b;        /* amber-500 */
+      --err: #f87171;         /* red-400 */
+      --code: #0b1021;
+      --border: #1f2937;      /* gray-800 */
+      --radius: 14px;
+    }
+    html, body { height:100%; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Ubuntu, Cantarell, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: var(--bg); color: var(--text); line-height: 1.55; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; max-width: 1200px; margin: 0 auto; padding: 24px; }
+    nav { position: sticky; top: 16px; align-self: start; background: var(--panel); padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); }
+    nav h2 { margin: 0 0 8px; font-size: 16px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+    nav ul { list-style: none; padding: 0; margin: 0; }
+    nav li { margin: 6px 0; }
+    nav a { display: block; padding: 6px 8px; border-radius: 8px; }
+    nav a:hover { background: rgba(96,165,250,0.12); }
+
+    main { background: var(--panel); padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); }
+    h1 { margin-top: 0; font-size: 28px; }
+    h2 { margin-top: 40px; font-size: 22px; border-top: 1px solid var(--border); padding-top: 24px; }
+    h3 { margin-top: 20px; font-size: 18px; color: #cbd5e1; }
+    p, li { color: #d1d5db; }
+
+    .kicker { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+    .lead { color: #e2e8f0; font-size: 18px; margin: 6px 0 12px; }
+
+    .admonition { border: 1px solid var(--border); border-left: 4px solid var(--brand); background: rgba(96,165,250,.09); padding: 12px 14px; border-radius: 10px; margin: 16px 0; }
+    .admonition.tip { border-left-color: var(--ok); background: rgba(52,211,153,.08); }
+    .admonition.warn { border-left-color: var(--warn); background: rgba(245,158,11,.08); }
+    .admonition.err { border-left-color: var(--err); background: rgba(248,113,113,.08); }
+    .admonition .title { font-weight: 700; margin-bottom: 6px; }
+
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    pre { background: var(--code); border: 1px solid var(--border); border-radius: 12px; padding: 14px; overflow: auto; }
+    .kbd { display: inline-block; padding: 1px 6px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px; background: #0b1224; font-size: 12px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .checklist { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 8px; }
+    .checklist li { background: #0b1224; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+    thead th { background: #0b1224; }
+
+    footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h2>Содержание</h2>
+      <ul id="toc"></ul>
+    </nav>
+
+    <main id="content">
+      <header>
+        <div class="kicker">Лабораторная работа 0 — теория (для начинающих)</div>
+        <h1>Знакомство с C++</h1>
+        <p class="lead">Эта страница объясняет базовые идеи языка C++ максимально простым языком: что это за язык, чем он отличается от Python, как работает компиляция и линковка, какие бывают типы, как устроены арифметика, функции и тестирование.</p>
+      </header>
+
+      <section id="history">
+        <h2>1. Короткая история и зачем нужен C++</h2>
+        <p><strong>C++</strong> появился в 1980‑х как развитие языка C, чтобы объединить <em>эффективность</em> (как у C) и <em>удобные абстракции</em> высокого уровня (классы, шаблоны). Сегодня C++ применяют в системном ПО, игровых движках, высоконагруженных сервисах и встраиваемых устройствах.</p>
+        <ul>
+          <li><strong>C++98/03</strong> — стандартизация базового языка и STL.</li>
+          <li><strong>C++11/14</strong> — современный C++: <code>auto</code>, range‑for, move‑семантика, умные указатели.</li>
+          <li><strong>C++17</strong> — structured bindings, <code>std::optional</code>, <code>filesystem</code>.</li>
+          <li><strong>C++20</strong> — концепты, корутины (основа), <code>ranges</code>.</li>
+        </ul>
+        <div class="admonition tip"><div class="title">Почему стоит изучать C++</div>
+          <p>Высокая скорость, контроль памяти, кроссплатформенность и огромная экосистема библиотек.</p>
+        </div>
+      </section>
+
+      <section id="py-compare">
+        <h2>2. C++ и Python: качественное и количественное сравнение</h2>
+        <div class="grid">
+          <div>
+            <h3>Качественные различия</h3>
+            <ul>
+              <li><strong>Типизация:</strong> C++ — статическая (ошибки типов ловятся на этапе компиляции); Python — динамическая (ошибки чаще в рантайме).</li>
+              <li><strong>Исполнение:</strong> C++ компилируется в машинный код → очень быстро. Python в CPython исполняется интерпретатором → проще писать, но медленнее.</li>
+              <li><strong>Память:</strong> C++ управляет памятью напрямую (RAII, умные указатели); Python — автоматический сборщик мусора, объекты «тяжелее».</li>
+              <li><strong>Библиотеки:</strong> у Python огромная экосистема для науки/данных; у C++ — для системной, графической и производительной разработки.</li>
+              <li><strong>Параллелизм:</strong> в CPython есть GIL (ограничивает потоки для CPU‑задач); в C++ потоков нет таких ограничений на уровне языка.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Количественные ориентиры (очень грубо)</h3>
+            <ul>
+              <li>Чистые циклы с арифметикой: C++ обычно быстрее Python в <strong>10–100×</strong> (зависит от задачи и оптимизаций).</li>
+              <li>Если в Python использовать <em>NumPy</em> (внутри — C/C++), различие может сократиться до <strong>1–3×</strong> или исчезнуть для векторных операций.</li>
+              <li><em>PyPy</em> (JIT) часто ускоряет Python в <strong>2–5×</strong> по сравнению с CPython, но C++ всё равно остаётся эталоном скорости.</li>
+            </ul>
+            <div class="admonition warn"><div class="title">Важно</div>
+              <p>Эти числа — порядок величин, а не строгие нормы. На реальной задаче результаты зависят от алгоритмов, компилятора/флагов (<code>-O2/-O3</code>), версии интерпретатора и платформы.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="toolchain">
+        <h2>3. Инструменты: компиляция, линковка, запуск</h2>
+        <p>C++ — <em>компилируемый</em> язык. Ваши файлы <code>.cpp</code> и <code>.h/.hpp</code> проходят этапы:</p>
+        <ol>
+          <li><strong>Препроцессор</strong> — разворачивает <code>#include</code>, макросы (<code>#define</code>), условную компиляцию (<code>#if/#ifdef</code>).</li>
+          <li><strong>Компиляция</strong> — каждый <code>.cpp</code> превращается в объектный файл <code>.o/.obj</code>.</li>
+          <li><strong>Линковка</strong> — связывает объектные файлы и библиотеки (<em>static</em>/<em>dynamic</em>) в исполняемый файл.</li>
+          <li><strong>Запуск</strong> — ОС запускает готовую программу.</li>
+        </ol>
+        <div class="grid">
+          <div>
+            <h3>Мини‑пример (g++)</h3>
+<pre><code class="language-bash"># компиляция двух единиц трансляции
+g++ -std=c++20 -O2 -Wall -Wextra -c math.cpp -o math.o
+g++ -std=c++20 -O2 -Wall -Wextra -c main.cpp -o main.o
+# линковка
+g++ math.o main.o -o app
+./app</code></pre>
+            <p>Типичные ошибки:</p>
+            <ul>
+              <li><strong>compile error</strong> — синтаксис/типы (показывает файл и строку).</li>
+              <li><strong>link error</strong> (<em>undefined reference</em>) — объявили функцию в заголовке, но забыли её определить или подключить соответствующий <code>.cpp</code>.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Компилятор vs интерпретатор</h3>
+            <ul>
+              <li><strong>Компилятор</strong> (C++): анализирует код заранее и делает быстрый двоичный файл. Ошибки обнаруживаются до запуска.</li>
+              <li><strong>Интерпретатор</strong> (Python/CPython): читает и исполняет код построчно во время запуска. Проще стартовать, но медленнее.</li>
+              <li><strong>JIT</strong> (например, PyPy, JVM): компилирует «на лету», занимает середину между интерпретацией и статической компиляцией.</li>
+            </ul>
+            <div class="admonition tip"><div class="title">Файлы заголовков и исходников</div>
+              <p><code>.h/.hpp</code> — объявления (прототипы функций, типы); <code>.cpp</code> — определения (реализация). Подключайте заголовки директивой <code>#include</code> и защищайте <em>include guards</em> или <code>#pragma once</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hello">
+        <h2>4. Первая программа и ввод/вывод</h2>
+        <h3>4.1. «Hello, world!»</h3>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main() {
+    std::cout &lt;&lt; "Hello, world!
+"; // вывод строки на экран
+    return 0;                        // код возврата для ОС
+}
+</code></pre>
+        <h3>4.2. Коротко про <code>using namespace std;</code></h3>
+        <p>Запись <code>std::cout</code> длинная? Можно разово написать <code>using namespace std;</code> и затем писать <code>cout</code>, <code>cin</code> без префикса. Но в больших проектах так делать <em>не рекомендуется</em> (может привести к конфликтам имён). Для учебных примеров можно, но безопаснее указывать <code>std::</code> явно.</p>
+
+        <h3>4.3. Библиотека <code>&lt;iomanip&gt;</code> (форматирование)</h3>
+        <ul>
+          <li><code>fixed</code> — печатать числа в фиксированном формате (а не научном виде).</li>
+          <li><code>setprecision(n)</code> — количество знаков после запятой в <code>fixed</code>‑режиме.</li>
+          <li><code>setw(w)</code> — ширина поля; <code>setfill(ch)</code> — символ заполнения.</li>
+          <li><code>left</code>/<code>right</code> — выравнивание; <code>showpoint</code> — всегда печатать десятичную точку.</li>
+        </ul>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+int main(){
+    std::cout &lt;&lt; std::fixed &lt;&lt; std::setprecision(3);
+    std::cout &lt;&lt; 3.14159265 &lt;&lt; "
+";          // 3.142
+    std::cout &lt;&lt; std::setw(8) &lt;&lt; std::setfill('.') &lt;&lt; 42 &lt;&lt; "
+"; // ......42
+}
+</code></pre>
+      </section>
+
+      <section id="types">
+        <h2>5. Базовые типы и переполнение</h2>
+        <p>Важные группы типов:</p>
+        <ul>
+          <li><strong>Целые:</strong> <code>bool</code>, <code>char</code> (знак зависит от реализации), <code>short</code>, <code>int</code>, <code>long</code>, <code>long long</code>, а также типы из <code>&lt;cstdint&gt;</code>.</li>
+          <li><strong>Вещественные:</strong> <code>float</code>, <code>double</code>, <code>long double</code>.</li>
+          <li><strong>Другие:</strong> <code>size_t</code> (беззнаковый тип «размер»), <code>ptrdiff_t</code> и т. п.</li>
+        </ul>
+        <div class="admonition warn"><div class="title">Размеры зависят от платформы</div>
+          <p>Стандарт не фиксирует точные размеры базовых целых. На большинстве 64‑битных систем сегодня: <code>int</code> — 4 байта, <code>long long</code> — 8 байт, но это не правило на все времена.</p>
+        </div>
+        <h3>5.1. Фиксированные ширины из <code>&lt;cstdint&gt;</code></h3>
+        <p>Если нужен гарантированный минимум бит:</p>
+        <table>
+          <thead><tr><th>Тип</th><th>Что гарантирует</th><th>Когда использовать</th></tr></thead>
+          <tbody>
+            <tr><td><code>int8_t / uint8_t</code></td><td>ровно 8 бит (если доступны)</td><td>работа с байтами/файлами/протоколами</td></tr>
+            <tr><td><code>int16_t / uint16_t</code></td><td>ровно 16 бит</td><td>структуры данных, бинарные форматы</td></tr>
+            <tr><td><code>int32_t / uint32_t</code></td><td>ровно 32 бит</td><td>переносимые числовые расчёты</td></tr>
+            <tr><td><code>int64_t / uint64_t</code></td><td>ровно 64 бит</td><td>большие целые, таймстемпы</td></tr>
+            <tr><td><code>int_least16_t</code></td><td>минимум 16 бит, самый «узкий» подходящий</td><td>экономия памяти</td></tr>
+            <tr><td><code>int_fast16_t</code></td><td>минимум 16 бит, самый <em>быстрый</em> для платформы</td><td>когда важна скорость больше, чем размер</td></tr>
+          </tbody>
+        </table>
+        <p><code>int_leastN_t</code> выбирает самый маленький тип с ≥ N бит, <code>int_fastN_t</code> — самый быстрый (может быть шире).</p>
+        <h3>5.2. Переполнение</h3>
+        <ul>
+          <li><strong>Беззнаковые</strong> (например, <code>uint32_t</code>) переполняются по модулю <code>2^N</code>.</li>
+          <li><strong>Знаковые</strong> (<code>int</code>, <code>int32_t</code>) при переполнении имеют <em>неопределённое поведение</em> — результат нельзя предсказать надёжно.</li>
+          <li>Избегайте переполнений: берите более широкий тип и/или приводите операнды: <code>long long P = 2LL * (static_cast&lt;long long&gt;(a) + b);</code></li>
+        </ul>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;cstdint&gt;
+#include &lt;limits&gt;
+int main(){
+    std::cout &lt;&lt; sizeof(int) &lt;&lt; " байт
+";
+    std::cout &lt;&lt; "INT_MAX = " &lt;&lt; std::numeric_limits&lt;int&gt;::max() &lt;&lt; "
+";
+}
+</code></pre>
+      </section>
+
+      <section id="ops">
+        <h2>6. Арифметика: очень подробно</h2>
+        <h3>6.1. Базовые операции</h3>
+        <ul>
+          <li><code>+</code> — сложение, <code>-</code> — вычитание, <code>*</code> — умножение.</li>
+          <li><code>/</code> — деление; <code>%</code> — остаток от деления (только для целых типов).</li>
+          <li>Порядок действий как в математике; используйте скобки для ясности.</li>
+        </ul>
+        <h3>6.2. Целочисленное деление и остаток</h3>
+        <p>Если и делимое, и делитель — целые типы, результат деления тоже целый, дробная часть отбрасывается (округление к нулю).</p>
+        <div class="grid">
+          <div>
+<pre><code class="language-cpp">7  / 2  == 3
+7  % 2  == 1
+8  / 2  == 4
+-7 / 2  == -3   // к нулю
+-7 % 2  == -1   // знак остатка как у делимого (-7)
+7  % -2 == 1
+</code></pre>
+          </div>
+          <div>
+            <div class="admonition tip"><div class="title">Как посчитать «сколько полных раз» и «сколько осталось»</div>
+              <p>Пусть у нас 17 конфет и 5 детей. <code>q = 17/5 == 3</code> — каждому по 3; <code>r = 17%5 == 2</code> — осталось 2 конфеты.</p>
+            </div>
+          </div>
+        </div>
+        <h3>6.3. Вещественное деление</h3>
+        <p>Если хотя бы один операнд — <code>double</code>/<code>float</code>, деление — вещественное:</p>
+<pre><code class="language-cpp">7 / 2.0 == 3.5
+static_cast&lt;double&gt;(7) / 2 == 3.5
+</code></pre>
+        <h3>6.4. Почему нельзя сравнивать <code>double</code> через <code>==</code></h3>
+        <p>Двоичное представление не всегда может точно сохранить десятичные дроби. Например, <code>0.1 + 0.2</code> даёт число чуть‑чуть больше <code>0.3</code>, и сравнение <code>(0.1+0.2)==0.3</code> часто ложно.</p>
+<pre><code class="language-cpp">#include &lt;cmath&gt;
+bool approx_equal(double x, double y, double eps = 1e-6) {
+    return std::fabs(x - y) &lt;= eps; // сравнение с допуском
+}
+</code></pre>
+      </section>
+
+      <section id="funcs">
+        <h2>7. Функции: разделяем вычисления и ввод/вывод</h2>
+        <p><strong>Зачем делить программу на функции?</strong></p>
+        <ul>
+          <li><em>Переиспользование</em>: одна функция — одно действие.</li>
+          <li><em>Проверяемость</em>: «чистые» функции легче тестировать.</li>
+          <li><em>Понятность</em>: программа разбита на шаги, каждый назван и изолирован.</li>
+        </ul>
+        <h3>Правила хорошего тона</h3>
+        <ul>
+          <li>Имя отражает действие: <code>hypotenuse()</code>, <code>try_divide()</code>.</li>
+          <li>Параметры — по значению для маленьких типов, по <code>const &amp;</code> для больших структур/строк.</li>
+          <li>Функции <em>не</em> должны печатать внутри себя (кроме специальных). Ввод/вывод — в <code>main()</code>.</li>
+          <li>Выносите объявления в заголовок <code>.h/.hpp</code>, реализацию — в <code>.cpp</code>.</li>
+          <li>Старайтесь, чтобы функция делала одно дело и была короткой.</li>
+        </ul>
+<pre><code class="language-cpp">double hyp(double a, double b) { return std::sqrt(a*a + b*b); }
+
+bool try_div(double a, double b, double &out) {
+    if (b == 0.0) return false; out = a / b; return true;
+}
+</code></pre>
+        <div class="admonition tip"><div class="title">Организация <code>main()</code></div>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+int main(){
+    std::cout &lt;&lt; std::fixed &lt;&lt; std::setprecision(3);
+    double a = 3, b = 4, q = 0;
+    std::cout &lt;&lt; "hyp(3,4) = " &lt;&lt; hyp(a,b) &lt;&lt; "
+";
+    if (try_div(a,b,q)) std::cout &lt;&lt; "a/b = " &lt;&lt; q &lt;&lt; "
+";
+    else std::cout &lt;&lt; "Ошибка: деление на ноль
+";
+}
+</code></pre>
+        </div>
+      </section>
+
+      <section id="tests">
+        <h2>8. Зачем тестировать и как придумывать тесты</h2>
+        <p>Тесты экономят время: ошибки дешевле ловить сразу. Даже простые проверки дают большой эффект.</p>
+        <h3>Пограничные случаи и эквивалентные классы</h3>
+        <ul>
+          <li><strong>Нормальные значения</strong> — «середина диапазона» (например, <code>hyp(3,4)</code>).</li>
+          <li><strong>Границы</strong> — нуль, единица, максимум/минимум типа (<code>INT_MAX</code>, <code>0</code>, <code>-1</code>).</li>
+          <li><strong>Особые случаи</strong> — деление на ноль, отрицательные, очень маленькие/большие вещественные.</li>
+        </ul>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+#include &lt;cmath&gt;
+#include &lt;string&gt;
+#include &lt;limits&gt;
+
+bool approx_equal(double x, double y, double eps = 1e-6) {
+    return std::fabs(x - y) &lt;= eps;
+}
+
+void expect_close(const std::string &name, double got, double expected, double eps = 1e-6) {
+    if (approx_equal(got, expected, eps)) std::cout &lt;&lt; "[PASS] " &lt;&lt; name &lt;&lt; "
+";
+    else std::cout &lt;&lt; "[FAIL] " &lt;&lt; name &lt;&lt; ": got=" &lt;&lt; got &lt;&lt; " expected=" &lt;&lt; expected &lt;&lt; "
+";
+}
+
+int main(){
+    std::cout.setf(std::ios::fixed); std::cout &lt;&lt; std::setprecision(3);
+    expect_close("hyp(3,4)", hyp(3,4), 5.0);
+    expect_close("deg2rad(180)", deg2rad(180), 3.1415926535);
+    double q = 0; bool ok = try_div(1, 0, q);
+    std::cout &lt;&lt; (ok ? "[FAIL] div by zero" : "[PASS] div by zero") &lt;&lt; "
+";
+}
+</code></pre>
+        <div class="admonition tip"><div class="title">Мини‑чек‑лист тестирования</div>
+          <ul>
+            <li>Есть тесты на «нормальные», «пограничные» и «ошибочные» входы.</li>
+            <li>Для <code>double</code> используется сравнение с допуском <code>eps</code>.</li>
+            <li>Результаты тестов видны (например, <code>[PASS]/[FAIL]</code>).</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="common-mistakes">
+        <h2>9. Частые ошибки</h2>
+        <ul>
+          <li>Переполнение целых на <code>int</code>; используйте более широкий тип и явные приведения.</li>
+          <li>Деление на ноль и молчаливое завершение без сообщения пользователю.</li>
+          <li>Сравнение <code>double</code> через <code>==</code> вместо сравнения с <code>eps</code>.</li>
+          <li>Форматирование без <code>fixed</code>/<code>setprecision</code> → разное число знаков после запятой.</li>
+          <li>Смешивание логики и ввода/вывода внутри одной функции.</li>
+        </ul>
+      </section>
+
+      <section id="checklist">
+        <h2>10. Чек‑лист перед сдачей ЛР0</h2>
+        <ul class="checklist">
+          <li>Вывод форматирован: <code>std::fixed</code> + <code>std::setprecision(3)</code>.</li>
+          <li>Деление на ноль обрабатывается и сообщает об ошибке.</li>
+          <li>Потенциальные переполнения считаются в широком типе.</li>
+          <li>Вычисления — в «чистых» функциях; ввод/вывод — только в <code>main()</code>.</li>
+          <li>Есть минимум 6 тестов, включая пограничные случаи.</li>
+          <li>Код компилируется без предупреждений <code>-Wall -Wextra</code> (старайтесь).</li>
+        </ul>
+      </section>
+
+      <footer>
+        Версия страницы: v0.2 — расширенная теория для начинающих (без раздела про MkDocs).
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Автоматическое оглавление из h2/h3
+    (function buildTOC(){
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('main h2, main h3');
+      headings.forEach(h => {
+        const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-zа-я0-9]+/gi,'-');
+        h.id = id;
+        const li = document.createElement('li');
+        if(h.tagName === 'H3') li.style.paddingLeft = '14px';
+        const a = document.createElement('a');
+        a.href = '#' + id; a.textContent = h.textContent;
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
