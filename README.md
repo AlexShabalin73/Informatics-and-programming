@@ -7,10 +7,12 @@
 
 ЛР 0: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR0.pdf">Лабораторная работа 0 </a>  
 ЛР 1: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR1.pdf">Лабораторная работа 1 </a>  
+ЛР 2: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR2.pdf">Лабораторная работа 2 </a>  
 
 ### Дедлайн
 Лабораторная работа 0: 23.09.2025  
 Лабораторная работа 1: 7.10.2025  
+Лабораторная работа 2: 28.10.2025  
 
 ### Теоретические матриалы  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR0_teoriya_cpp.html">Теория ЛР0 </a>  
