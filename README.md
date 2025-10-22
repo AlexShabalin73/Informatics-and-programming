@@ -14,6 +14,9 @@
 Лабораторная работа 1: 7.10.2025  
 Лабораторная работа 2: 28.10.2025  
 
+### Семинары  
+https://informatics.msk.ru/mod/statements/view.php?id=66211#1  
+
 ### Теоретические матриалы  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR0_teoriya_cpp.html">Теория ЛР0 </a>  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR1_teoriya_cpp.html">Теория ЛР1 </a>  
