@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЛР3 — Теория: Массивы и vector (v0.2)</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#94a3b8; --brand:#60a5fa; --ok:#34d399; --warn:#f59e0b; --err:#f87171; --code:#0b1021; --border:#1f2937; --radius:14px; }
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",Ubuntu,Cantarell,Helvetica,Arial;background:var(--bg);color:var(--text);line-height:1.55}
+    a{color:var(--brand)} a:hover{text-decoration:underline}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:24px}
+    nav{position:sticky;top:16px;align-self:start;background:var(--panel);padding:16px;border:1px solid var(--border);border-radius:var(--radius)}
+    nav h2{margin:0 0 8px;font-size:16px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+    nav ul{list-style:none;padding:0;margin:0}
+    nav a{display:block;padding:6px 8px;border-radius:8px}
+    nav a:hover{background:rgba(96,165,250,.12)}
+    main{background:var(--panel);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+    h1{margin-top:0;font-size:28px}
+    h2{margin-top:40px;font-size:22px;border-top:1px solid var(--border);padding-top:24px}
+    h3{margin-top:16px;font-size:18px;color:#cbd5e1}
+    p,li{color:#d1d5db}
+    .kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .lead{color:#e2e8f0;font-size:18px;margin:6px 0 12px}
+    .admonition{border:1px solid var(--border);border-left:4px solid var(--brand);background:rgba(96,165,250,.09);padding:12px 14px;border-radius:10px;margin:16px 0}
+    .admonition.tip{border-left-color:var(--ok);background:rgba(52,211,153,.08)}
+    .admonition.warn{border-left-color:var(--warn);background:rgba(245,158,11,.08)}
+    .admonition.err{border-left-color:var(--err);background:rgba(248,113,113,.08)}
+    .admonition .title{font-weight:700;margin-bottom:6px}
+    code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:14px;overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+    thead th{background:#0b1224}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h2>Содержание</h2>
+      <ul id="toc"></ul>
+    </nav>
+
+    <main>
+      <header>
+        <div class="kicker">Лабораторная работа 3 — теория</div>
+        <h1>Массивы и vector</h1>
+        <p class="lead">От структур данных и непрерывной памяти до внутреннего устройства <code>std::vector</code>: <em>size/capacity</em>, политика роста, амортизированная сложность, методы и типичные ловушки. Теория ориентирована на задания ЛР3, но без готовых решений.</p>
+      </header>
+
+      <section id="ds-why">
+        <h2>0. Структуры данных: идея, скорость и память</h2>
+        <p><strong>Структуры данных</strong> — это способы хранить информацию так, чтобы операции были быстрыми и экономили память. Важны: <em>случайный доступ</em>, <em>локальность кэша</em> и <em>накладные расходы</em>.</p>
+        <div class="grid">
+          <div>
+            <h3>Почему локальность важна</h3>
+            <p>Современные CPU читают память блоками (кэш‑линии по 64 байта). Если элементы лежат подряд, то соседние элементы уже в кэше → мы попадаем в быструю память. «Прыжки по указателям» (как в связных списках) часто многократно медленнее при той же асимптотике.</p>
+          </div>
+          <div>
+            <h3>Исторический штрих</h3>
+            <p>На магнитных лентах доступ был <em>строго последовательным</em>. Перелистывание «к началу» занимало время. Идея не потеряла актуальности: последовательное чтение contiguous‑данных почти всегда быстрее случайного.</p>
+          </div>
+        </div>
+      </section>
+      <section id="array-memory">
+        <h2>1. C‑массив: адресация и индексация</h2>
+        <p>Массив — это <em>непрерывный</em> блок одинаковых элементов. Адрес i‑го: <code>addr(a[i]) = base + i * sizeof(T)</code>. Поэтому индексация с нуля естественна: <code>i=0 → base</code>.</p>
+<pre><code class="language-cpp">int a[5]; a[0]=10; a[4]=20; // допустимые индексы 0..4
+</code></pre>
+        <div class="admonition warn"><div class="title">Передача в функцию</div>
+          <p><code>int a[]</code> «затухает» до <code>int*</code>. Внутри функции <code>sizeof(a)</code> — это размер указателя, а не массива. Длину передаём явно.</p>
+        </div>
+        <div class="admonition tip"><div class="title">std::array</div>
+          <p>Фиксированный контейнер <code>std::array&lt;T,N&gt;</code> хранит N элементов, знает <code>.size()</code> и дружит с алгоритмами.</p>
+        </div>
+      </section>
+
+      <section id="vector-deep">
+        <h2>2. Как устроен <code>std::vector</code> внутри</h2>
+        <p><code>vector</code> — это <em>динамический</em> непрерывный массив. В нём всегда есть три величины:</p>
+        <ul>
+          <li><code>size()</code> — сколько элементов реально хранится;</li>
+          <li><code>capacity()</code> — сколько элементов можно хранить без перевыделения памяти;</li>
+          <li><em>политика роста</em> — как увеличивается <code>capacity</code> при нехватке места.</li>
+        </ul>
+        <h3>2.1. Политика роста и амортизированная стоимость</h3>
+        <p>Когда места не хватает, <code>vector</code> выделяет <em>больший</em> блок (часто в 1.5–2× больше, точный коэффициент зависит от реализации), <em>перемещает/копирует</em> старые элементы и освобождает старую память. Поэтому <code>push_back</code> имеет <strong>амортизированную</strong> сложность O(1): большинство добавлений — мгновенные, иногда — «дорогая» релокация O(n).</p>
+<pre><code class="language-cpp">std::vector<int> v;
+for (int i = 0; i &lt; 10; ++i) {
+    v.push_back(i);
+    std::cout &lt;&lt; "size=" &lt;&lt; v.size() << ", cap=" &lt;&lt; v.capacity() << "\n";
+}
+// Вы увидите скачкообразный рост capacity: 0→1→2→4→8→… (пример)
+</code></pre>
+        <div class="admonition tip"><div class="title">reserve vs resize</div>
+          <ul>
+            <li><code>reserve(k)</code> — увеличивает <em>вместимость</em> до ≥ k, <em>не создаёт</em> элементы (<code>size()</code> не меняется).</li>
+            <li><code>resize(n, val)</code> — меняет <code>size()</code>: если n больше, создаются новые элементы (заполняются <code>val</code> или значением по умолчанию).</li>
+          </ul>
+        </div>
+        <h3>2.2. Почему вставки в начало/середину — медленные</h3>
+        <p><em>Причина 1:</em> элементы лежат подряд. Чтобы вставить в позицию <code>i</code>, нужно сдвинуть все элементы начиная с <code>i</code> на один вправо → O(n). <br/>
+           <em>Причина 2:</em> при переполнении <code>capacity</code> произойдёт релокация всего массива → ещё O(n). <br/>
+           Вставка в конец <code>push_back</code> не сдвигает старые элементы и редко релоцирует, поэтому в среднем O(1).</p>
+        <div class="admonition warn"><div class="title">Инвалидация ссылок/итераторов</div>
+          <p>Любое перевыделение памяти и операции, сдвигающие элементы (<code>insert/erase</code> в середине), делают <em>недействительными</em> старые указатели/ссылки/итераторы на элементы. Храните индексы, а не итераторы, если планируются вставки/удаления.</p>
+        </div>
+        <h3>2.3. Как избежать лишних релокаций</h3>
+        <ul>
+          <li>Если знаете верхнюю оценку размера — делайте <code>reserve(N)</code> перед серией <code>push_back</code>.</li>
+          <li>Не вставляйте «в начало по одному»: накапливайте в конец и <code>std::reverse</code>.</li>
+          <li>Генерируете из диапазона? Используйте конструктор от итераторов или <code>assign</code>.</li>
+        </ul>
+<pre><code class="language-cpp">std::vector<int> v; v.reserve(n);
+for (int i = 0; i &lt; n; ++i) v.push_back(i);
+std::reverse(v.begin(), v.end());
+</code></pre>
+        <h3>2.4. emplace_back и перемещения</h3>
+        <p><code>emplace_back(args...)</code> конструирует элемент <em>на месте</em> без временного объекта. Для тяжёлых типов это экономит копирование. При релокации элементы перемещаются (move), если их тип поддерживает <code>noexcept move</code>.</p>
+<pre><code class="language-cpp">struct Big { std::string s; Big(std::string x): s(std::move(x)){} };
+std::vector<Big> v; v.reserve(3);
+v.emplace_back("alpha"); // строится сразу в памяти вектора
+v.emplace_back("beta");
+</code></pre>
+        <h3>2.5. Очистка и усадка</h3>
+        <ul>
+          <li><code>clear()</code> делает <code>size=0</code>, но <code>capacity</code> остаётся (память остаётся у вектора).</li>
+          <li><code>shrink_to_fit()</code> просит освободить лишнюю вместимость (может перевыделить память; это <em>необязательное</em> для реализации поведение).</li>
+        </ul>
+      </section>
+
+      <section id="vector-api">
+        <h2>3. Методы <code>std::vector</code>: шпаргалка с примерами</h2>
+        <div class="grid">
+          <div>
+            <h3>Создание и размер</h3>
+<pre><code class="language-cpp">std::vector<int> a;                 // пустой
+std::vector<int> b(5);              // 5 нулей
+std::vector<int> c(5, 42);          // 5 значений 42
+std::vector<int> d = {1,2,3};       // список инициализации
+std::vector<int> e(d.begin(), d.end()); // от диапазона
+
+size_t n = c.size();
+size_t cap = c.capacity();
+c.reserve(1000);  // только вместимость
+c.resize(10, -1); // size=10, новые = -1
+</code></pre>
+          </div>
+          <div>
+            <h3>Доступ и итераторы</h3>
+<pre><code class="language-cpp">int x = c[0];           // без проверки
+int y = c.at(1);        // с проверкой (исключение при выходе)
+int &last = c.back();   // последний элемент
+int *p = c.data();      // сырой указатель
+
+for (auto it = c.begin(); it != c.end(); ++it) { /* ... */ }
+for (int v : c) { /* range-for */ }
+</code></pre>
+          </div>
+          <div>
+            <h3>Модификаторы</h3>
+<pre><code class="language-cpp">c.push_back(7); c.emplace_back(8); // в конец (амортиз. O(1))
+c.pop_back();                      // убрать последний
+
+// вставка/удаление (O(n))
+a.insert(a.begin() + 2, 99);
+a.erase(a.begin() + 2);
+
+a.clear();                         // size=0, capacity прежняя
+
+a.assign(5, 0);                    // перезаполнить 5 нулями
+</code></pre>
+          </div>
+          <div>
+            <h3>Полезные алгоритмы STL</h3>
+<pre><code class="language-cpp">std::sort(a.begin(), a.end());
+std::reverse(a.begin(), a.end());
+
+// удалить все нечётные (идиома erase-remove)
+a.erase(std::remove_if(a.begin(), a.end(),
+                       [](int x){return x%2!=0;}),
+        a.end());
+
+// бинарный поиск по отсортированному массиву
+auto it = std::lower_bound(a.begin(), a.end(), 42);
+</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="2d">
+        <h2>4. Двумерные массивы и «плоское» хранение</h2>
+        <h3>4.1. Правильная инициализация</h3>
+<pre><code class="language-cpp">int n=3, m=4;
+std::vector<std::vector<int>> A(n, std::vector<int>(m));
+// заполнение формулой i+j
+for (int i=0;i<n;++i)
+  for (int j=0;j<m;++j)
+    A[i][j]=i+j;
+</code></pre>
+        <p><code>reserve(n)</code> для внешнего вектора не создаёт строк. Для <code>vector<vector<T>></code> безопаснее сразу <code>assign/resize</code>.</p>
+        <h3>4.2. Row‑major: плоский вектор</h3>
+<pre><code class="language-cpp">std::vector<int> B(n*m);
+auto at = [&](int i,int j)->int&{ return B[i*m + j]; };
+</code></pre>
+        <div class="admonition tip"><div class="title">Порядок обхода</div>
+          <p>Для row‑major быстрее внешний цикл по строкам, внутренний — по столбцам (шаг по памяти = 1 элемент).</p>
+        </div>
+      </section>
+
+      <section id="perf">
+        <h2>5. Почему «в начало» и «в середину» медленно, а «в конец» быстро</h2>
+        <p><strong>Кратко:</strong> вставка в середине требует сдвига O(n) элементов и может вызвать релокацию всего массива; вставка в конец — не требует сдвига и редко релоцирует, поэтому амортизированно O(1).</p>
+        <pre><code>До:  [a0][a1][a2][a3][a4]
+Вст. в i=2 → сдвинуть a2..a4 вправо → [a0][a1][ _ ][a2][a3][a4]
+После:      [a0][a1][X][a2][a3][a4]
+</code></pre>
+        <ul>
+          <li>Нужны частые <em>push_front</em>? Рассмотрите <code>std::deque</code> (почти O(1) спереди/сзади, но память не полностью непрерывная).</li>
+          <li>Нужны вставки/удаления в середине по итератору? Рассмотрите <code>std::list</code>/<code>std::forward_list</code>, но помните: у них плохая локальность → часто медленнее при простом последовательном обходе.</li>
+          <li>Для «накапливать в конец, получить в начале» используйте два вектора или стратегию «копим → <code>reverse</code>».</li>
+        </ul>
+      </section>
+
+      <section id="checklist">
+        <h2>6. Чек‑лист по vector</h2>
+        <ul>
+          <li>Перед массовым <code>push_back</code> делайте <code>reserve(N)</code>.</li>
+          <li>Не используйте <code>reserve</code> как замену <code>resize</code>.</li>
+          <li>Осторожно с <code>insert/erase</code>: это O(n) и инвалидирует итераторы.</li>
+          <li><code>clear()</code> не освобождает память — используйте <code>shrink_to_fit()</code>, если нужно вернуть память.</li>
+          <li>Храните индексы, а не указатели/итераторы, если возможны релокации.</li>
+          <li>Для 2D храните «плоско», если важна скорость и предсказуемость кэша.</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    (function buildTOC(){
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('main h2, main h3');
+      headings.forEach(h => {
+        const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-zа-я0-9]+/gi,'-');
+        h.id = id; const li = document.createElement('li');
+        if(h.tagName === 'H3') li.style.paddingLeft = '14px';
+        const a = document.createElement('a'); a.href = '#' + id; a.textContent = h.textContent;
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
