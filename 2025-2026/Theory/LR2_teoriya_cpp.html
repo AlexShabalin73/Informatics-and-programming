@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЛР2 — Теория: Операторы цикла (v0.2)</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#94a3b8; --brand:#60a5fa; --ok:#34d399; --warn:#f59e0b; --err:#f87171; --code:#0b1021; --border:#1f2937; --radius:14px; }
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",Ubuntu,Cantarell,Helvetica,Arial;background:var(--bg);color:var(--text);line-height:1.55}
+    a{color:var(--brand)} a:hover{text-decoration:underline}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:24px}
+    nav{position:sticky;top:16px;align-self:start;background:var(--panel);padding:16px;border:1px solid var(--border);border-radius:var(--radius)}
+    nav h2{margin:0 0 8px;font-size:16px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+    nav ul{list-style:none;padding:0;margin:0}
+    nav a{display:block;padding:6px 8px;border-radius:8px}
+    nav a:hover{background:rgba(96,165,250,.12)}
+    main{background:var(--panel);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+    h1{margin-top:0;font-size:28px}
+    h2{margin-top:40px;font-size:22px;border-top:1px solid var(--border);padding-top:24px}
+    h3{margin-top:16px;font-size:18px;color:#cbd5e1}
+    p,li{color:#d1d5db}
+    .kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .lead{color:#e2e8f0;font-size:18px;margin:6px 0 12px}
+    .admonition{border:1px solid var(--border);border-left:4px solid var(--brand);background:rgba(96,165,250,.09);padding:12px 14px;border-radius:10px;margin:16px 0}
+    .admonition.tip{border-left-color:var(--ok);background:rgba(52,211,153,.08)}
+    .admonition.warn{border-left-color:var(--warn);background:rgba(245,158,11,.08)}
+    .admonition.err{border-left-color:var(--err);background:rgba(248,113,113,.08)}
+    .admonition .title{font-weight:700;margin-bottom:6px}
+    code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:14px;overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+    thead th{background:#0b1224}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h2>Содержание</h2>
+      <ul id="toc"></ul>
+    </nav>
+
+    <main>
+      <header>
+        <div class="kicker">Лабораторная работа 2 — теория</div>
+        <h1>Операторы цикла</h1>
+        <p class="lead">Расширенная теория: зачем программисту циклы, примеры из жизни, строгие понятия инварианта/варианта цикла, определённое и неопределённое число шагов; далее — практические шаблоны и типичные ошибки.</p>
+      </header>
+
+      <section id="motivation">
+        <h2>0. Почему циклы неизбежны: примеры из жизни</h2>
+        <p>Цикл — это повторение действий до достижения цели или пока условие истинно. Почти любая задача состоит из множества однотипных шагов.</p>
+        <div class="grid">
+          <div>
+            <h3>Повседневные аналоги</h3>
+            <ul>
+              <li><strong>Счёт денег по купюрам</strong>: «пока есть купюры — складывать номиналы» → <code>while (есть) суммировать</code>.</li>
+              <li><strong>Тренировка 3×10</strong>: внешний цикл по подходам, внутренний по повторениям.</li>
+              <li><strong>Таймер</strong>: обратный отсчёт до нуля → <code>while (t &gt; 0) --t;</code></li>
+              <li><strong>Почта</strong>: просматриваем письма по одному, пока не закончатся непрочитанные.</li>
+              <li><strong>Сбор данных</strong>: читаем числа из потока, пока чтение успешно (до конца файла).</li>
+            </ul>
+          </div>
+          <div>
+            <h3>То же на C++</h3>
+<pre><code class="language-cpp">// сумма значений из stdin до конца ввода (EOF)
+long long sum = 0, x;
+while (std::cin &gt;&gt; x) sum += x;
+
+// 3 подхода по 10 повторений
+for (int set = 1; set &lt;= 3; ++set)
+  for (int rep = 1; rep &lt;= 10; ++rep)
+    ; // выполнить повторение
+
+// таймер обратного отсчёта
+int t = 7 * 60; while (t &gt; 0) { --t; /* ждать секунду */ }
+</code></pre>
+          </div>
+        </div>
+        <div class="admonition tip"><div class="title">Структурное программирование</div>
+          <p>По <strong>теореме Бёма—Якопини (1966)</strong> любую детерминированную программу можно построить из трёх базовых конструкций: <em>последовательность</em>, <em>ветвление</em>, <em>цикл</em> — без <code>goto</code>. Поэтому циклы — один из «трёх китов» программирования.</p>
+        </div>
+      </section>
+
+      <section id="loops-overview">
+        <h2>1. Зачем нужны циклы и какие бывают</h2>
+        <ul>
+          <li><strong>for</strong> — когда заранее известно количество шагов или удобно управлять счётчиком (<em>инициализация; условие; изменение</em>).</li>
+          <li><strong>while</strong> — когда шагов заранее неизвестно; условие проверяется <em>перед</em> каждой итерацией.</li>
+          <li><strong>do&nbsp;while</strong> — как <code>while</code>, но тело выполняется минимум один раз; проверка в конце.</li>
+        </ul>
+<pre><code class="language-cpp">for (int i = 0; i &lt; n; ++i) { /* тело */ }
+while (cond) { /* тело, пока cond == true */ }
+do { /* тело */ } while (cond);
+</code></pre>
+      </section>
+
+      <section id="loop-theory">
+        <h2>1.1. Теория циклов: инвариант и вариант</h2>
+        <p><strong>Инвариант цикла</strong> — утверждение, истинное перед каждой итерацией и после неё (гарантирует корректность). <strong>Вариант</strong> — величина, монотонно приближающая цикл к завершению (например, убывает к нулю), что гарантирует остановку.</p>
+        <h3>Примеры</h3>
+<pre><code class="language-cpp">// Сумма первых n натуральных: инвариант sum == сумма 1..i
+long long sum = 0;
+for (int i = 1; i &lt;= n; ++i) sum += i; // вариант: (n - i) убывает к 0
+
+// Минимум в потоке: mn — минимум среди уже прочитанных
+int K; std::cin &gt;&gt; K; int mn; std::cin &gt;&gt; mn;
+for (int i = 1; i &lt; K; ++i) { int x; std::cin &gt;&gt; x; if (x &lt; mn) mn = x; }
+</code></pre>
+      </section>
+
+      <section id="definite-indefinite">
+        <h2>1.2. Определённое и неопределённое число итераций</h2>
+        <ul>
+          <li><strong>Определённое</strong>: известно заранее — классический <code>for</code> по счётчику.</li>
+          <li><strong>Неопределённое</strong>: зависит от данных — <code>while</code>/<code>do&nbsp;while</code>, «до сторожа» или «пока чтение успешно».</li>
+        </ul>
+        <h3>Чтение до конца ввода (EOF)</h3>
+<pre><code class="language-cpp">long long sum = 0, x;
+while (std::cin &gt;&gt; x) sum += x; // успех ввода — условие продолжения
+</code></pre>
+        <h3>Сторожевое значение (sentinel)</h3>
+<pre><code class="language-cpp">int x, cntPos = 0;
+while ((std::cin &gt;&gt; x) &amp;&amp; x != 0) if (x &gt; 0) ++cntPos;
+</code></pre>
+      </section>
+
+      <section id="for-deep">
+        <h2>2. Цикл <code>for</code> без ловушек</h2>
+        <h3>2.1. Базовые шаблоны</h3>
+<pre><code class="language-cpp">// по возрастанию: 0,1,2,...,n-1
+for (int i = 0; i &lt; n; ++i) { /* ... */ }
+
+// по убыванию: n-1, n-2, ..., 0
+for (int i = n - 1; i &gt;= 0; --i) { /* ... */ }
+
+// другой шаг (например, +3)
+for (int x = a; x &lt;= b; x += 3) { /* ... */ }
+</code></pre>
+        <h3>2.2. Скобки и «однострочный if»</h3>
+        <p>Не опускайте фигурные скобки: так избегаете «отклеивания» строк и трудноуловимых ошибок.</p>
+<pre><code class="language-cpp">for (int i = a; i &lt;= b; ++i) {
+    if (i % 3 == 0) {
+        sum += i;
+        ++cnt;
+    }
+}
+</code></pre>
+        <h3>2.3. Где хранить инкремент</h3>
+        <p>Инкремент должен быть <em>в одном месте</em> — обычно в заголовке <code>for</code>. Лишние изменения внутри тела приводят к «перепрыгиванию» значений.</p>
+<pre><code class="language-cpp">// Анти‑паттерн: два инкремента
+for (int i = 0; i &lt; n; i++) {
+    /* ... */
+    i++; // лишний инкремент ломает шаги
+}
+</code></pre>
+        <h3>2.4. Границы и off‑by‑one</h3>
+        <ul>
+          <li><code>i &lt; n</code> — классический проход по индексам массива из <code>n</code> элементов.</li>
+          <li><code>x &lt;= b</code> включает правую границу, <code>x &lt; b</code> — исключает; выбирайте явно.</li>
+          <li>Для равномерной сетки по вещественным используйте целый индекс <code>k</code> и вычисляйте <code>x = A + k*H</code> (см. §7), чтобы избежать накопления ошибки.</li>
+        </ul>
+      </section>
+
+      <section id="while-patterns">
+        <h2>3. Цикл <code>while</code> и ввод до «сторожа»</h2>
+        <p>Когда количество значений неизвестно, читают «до маркера» (например, до нуля) или «пока успешно читается».</p>
+        <h3>3.1. Паттерн A — предварительное чтение (прайминг)</h3>
+<pre><code class="language-cpp">double x; int pos = 0; double sum = 0;
+if (!(std::cin &gt;&gt; x)) return 0; // вход закончился
+while (x != 0) {
+    if (x &gt; 0) { sum += x; ++pos; }
+    if (!(std::cin &gt;&gt; x)) break; // читаем следующее в конце итерации
+}
+</code></pre>
+        <h3>3.2. Паттерн B — чтение прямо в условии</h3>
+<pre><code class="language-cpp">double x; int pos = 0; double sum = 0;
+while ((std::cin &gt;&gt; x) &amp;&amp; x != 0) {
+    if (x &gt; 0) { sum += x; ++pos; }
+}
+</code></pre>
+        <div class="admonition warn"><div class="title">Почему может «зависать»</div>
+          <ul>
+            <li><code>continue</code> до чтения следующего значения «пропускает» считывание — цикл вернётся к проверке с тем же <code>x</code>.</li>
+            <li>Неинициализированная переменная перед циклом даёт мусор и непредсказуемое поведение.</li>
+            <li>Если положительных не было, среднее считать нельзя — печатайте <code>NA</code> или ноль по условию задачи.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="loop-analogies">
+        <h2>3.3. Живые аналогии for/while/do&nbsp;while</h2>
+        <div class="grid">
+          <div>
+            <h3><code>for</code> — «10 приседаний»</h3>
+<pre><code class="language-cpp">for (int rep = 1; rep &lt;= 10; ++rep) {
+    // сделать приседание
+}
+</code></pre>
+          </div>
+          <div>
+            <h3><code>while</code> — «пока вода не закипела»</h3>
+<pre><code class="language-cpp">while (!boiling()) {
+    // подождать немного, проверить снова
+}
+</code></pre>
+          </div>
+          <div>
+            <h3><code>do&nbsp;while</code> — «минимум один глоток»</h3>
+<pre><code class="language-cpp">do {
+    // глоток воды
+} while (want_more());
+</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="inc">
+        <h2>4. <code>i++</code> и <code>++i</code>: в чём разница</h2>
+        <p><strong>Постфикс</strong> <code>i++</code> возвращает старое значение, затем увеличивает <code>i</code>. <strong>Префикс</strong> <code>++i</code> — сначала увеличивает, затем возвращает новое. В простых счётчиках разницы нет, но в выражениях и условиях — есть.</p>
+<pre><code class="language-cpp">int i = 0;
+std::cout &lt;&lt; (i++) &lt;&lt; "\n"; // печатает 0, i стало 1
+std::cout &lt;&lt; (++i) &lt;&lt; "\n"; // сначала i=2, печатает 2
+</code></pre>
+        <h3>4.1. Инкремент в условии цикла</h3>
+        <p>Если писать <code>while(i++ &lt;= N)</code>, инкремент случается при проверке условия — даже если тело не выполнялось. Это сдвигает финальное значение счётчика и может приводить к «печати через один».</p>
+<pre><code class="language-cpp">int i = 0; long long sum = 0;
+while (i++ &lt; N) {         // постфикс применился ПРИ проверке
+    std::cout &lt;&lt; i &lt;&lt; ' ';
+    sum += i;
+}
+</code></pre>
+        <p>Надёжнее держать инкремент в одном месте — в начале или в конце тела:</p>
+<pre><code class="language-cpp">int i = 0; long long sum = 0;
+while (i &lt; N) {
+    ++i;            // одно место инкремента
+    std::cout &lt;&lt; i &lt;&lt; ' ';
+    sum += i;
+}
+</code></pre>
+      </section>
+
+      <section id="flow">
+        <h2>5. <code>break</code> и <code>continue</code>: когда уместно</h2>
+        <ul>
+          <li><code>break</code> — немедленно выйти из ближайшего цикла (например, нашли ответ).</li>
+          <li><code>continue</code> — перейти к следующей итерации. Будьте осторожны, если в конце цикла должно происходить чтение следующего значения.</li>
+        </ul>
+<pre><code class="language-cpp">for (int i = 0; i &lt; n; ++i) {
+    if (bad(i)) break;      // дальше идти не нужно
+    if (!use(i)) continue;  // пропускаем обработку i
+    /* ... */
+}
+</code></pre>
+      </section>
+
+      <section id="no-arrays">
+        <h2>6. Поток чисел без массивов: одно‑проходные паттерны</h2>
+        <p>Многие задачи просят обработать <em>K</em> чисел без сохранения всего потока: храните только необходимые агрегаты.</p>
+        <ul>
+          <li><strong>Счётчики/суммы</strong>: <em>cnt</em>, <em>sum</em>, <em>min/max</em>, <em>sumAbs</em>.</li>
+          <li><strong>Предыдущее/текущее</strong>: чтобы находить локальные экстремумы или смены знака.</li>
+          <li><strong>Флаги</strong>: «встречалось ли условие», «идёт ли сейчас серия».</li>
+        </ul>
+<pre><code class="language-cpp">int K; std::cin &gt;&gt; K;
+int prev = 0; bool has_prev = false; int changes = 0;
+for (int i = 0; i &lt; K; ++i) {
+    int x; std::cin &gt;&gt; x;
+    if (has_prev &amp;&amp; (prev &lt; 0) != (x &lt; 0)) ++changes; // смена знака
+    prev = x; has_prev = true;
+}
+std::cout &lt;&lt; changes &lt;&lt; "\n";
+</code></pre>
+      </section>
+
+      <section id="grid">
+        <h2>7. Равномерная сетка по отрезку [A,B]</h2>
+        <p>Часто нужно пройти точки <code>x = A, A+H, A+2H, ...</code> пока <code>x</code> не превысит <code>B</code>. Из‑за накопления погрешности лучше итерироваться по целому индексу <code>k</code>:</p>
+<pre><code class="language-cpp">for (int k = 0; ; ++k) {
+    double x = A + k * H;        // вычисляем точку от индекса
+    if (x &gt; B + 1e-12) break;    // небольшой запас на ошибки округления
+    // используем x, форматируя вывод
+    std::cout &lt;&lt; std::fixed &lt;&lt; std::setprecision(3)
+              &lt;&lt; x &lt;&lt; "\t" &lt;&lt; f(x) &lt;&lt; "\n";
+}
+</code></pre>
+        <div class="admonition tip"><div class="title">Проверка домена</div>
+          <p>Если функция неопределена (например, <code>sqrt(отрицательное)</code>, <code>ln(≤0)</code>), строку пропускают и увеличивают счётчик ошибок. В конце печатают этот счётчик. Для форматирования — <code>std::fixed</code> + <code>std::setprecision(3)</code>.</p>
+        </div>
+      </section>
+
+      <section id="series">
+        <h2>8. Сумма ряда: учёт точности и экономия вычислений</h2>
+        <h3>8.1. Итеративные степени и факториалы</h3>
+        <p>Степени и факториалы выгодно считать по рекуррентной формуле, чтобы не вызывать <code>pow</code> и не пересчитывать всё заново:</p>
+<pre><code class="language-cpp">long double term = 1; // x^0 / 0!
+long double S = term;
+for (int k = 1; k &lt;= n; ++k) {
+    term *= x;          // x^k
+    term /= k;          // делим на k! итеративно
+    S += term;          // накапливаем сумму
+}
+</code></pre>
+        <h3>8.2. Останов по числу членов и по точности</h3>
+<pre><code class="language-cpp">// по числу членов n
+for (int k = 1; k &lt;= n; ++k) { /* обновить term; S += term; печать k, term, S */ }
+
+// по точности eps (0 &lt; eps &lt; 1)
+int k = 0; long double term = firstTerm(x);
+long double S = 0;
+while (std::fabsl(term) &gt;= eps) {
+    S += term; print(k, term, S);
+    term = nextTerm(term, x, k); ++k;
+}
+</code></pre>
+        <p>Храните минимум/максимум модуля слагаемого, печатайте таблицу <em>k, t_k, S_k</em>. Для устойчивости используйте <code>long double</code>.</p>
+      </section>
+
+      <section id="tables">
+        <h2>9. Выровненные таблицы вывода</h2>
+        <ul>
+          <li><code>std::setw(w)</code> — ширина поля; <code>std::left/std::right</code> — выравнивание.</li>
+          <li>Не оставляйте «висячих» пробелов в конце строк: печатайте пробел/разделитель только между столбцами.</li>
+        </ul>
+<pre><code class="language-cpp">#include &lt;iomanip&gt;
+for (int c = 0; c &lt; cols; ++c) {
+    std::cout &lt;&lt; std::setw(w) &lt;&lt; std::right &lt;&lt; value(c);
+    if (c + 1 &lt; cols) std::cout &lt;&lt; ' ';
+}
+std::cout &lt;&lt; "\n";
+</code></pre>
+      </section>
+
+      <section id="mistakes">
+        <h2>10. Частые ошибки и как их избегать</h2>
+        <ul>
+          <li>Забыли скобки у <code>if</code> внутри цикла → работает только одна строка.</li>
+          <li>Инкремент и в заголовке, и в теле → «перепрыгивание» значений.</li>
+          <li><code>continue</code> до чтения следующего элемента во входном потоке → вечный цикл.</li>
+          <li>Смешивание целочисленного и вещественного шага; использование <code>double</code> как счётчика.</li>
+          <li>Отсутствие защиты от деления на ноль и от недопустимых аргументов математических функций.</li>
+        </ul>
+      </section>
+
+      <footer>Версия страницы: ЛР2 — v0.2 (расширенная теория; без решений задач).</footer>
+    </main>
+  </div>
+
+  <script>
+    (function buildTOC(){
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('main h2, main h3');
+      headings.forEach(h => {
+        const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-zа-я0-9]+/gi,'-');
+        h.id = id; const li = document.createElement('li');
+        if(h.tagName === 'H3') li.style.paddingLeft = '14px';
+        const a = document.createElement('a'); a.href = '#' + id; a.textContent = h.textContent;
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
