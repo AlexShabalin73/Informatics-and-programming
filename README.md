@@ -17,7 +17,7 @@
 Лабораторная работа 3: 11.11.2025  
 
 ### Семинары  
-https://informatics.msk.ru/mod/statements/view.php?id=66211#1  
+https://informatics.msk.ru/mod/statements/view.php?id=104441#1  
 
 ### Теоретические матриалы  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR0_teoriya_cpp.html">Теория ЛР0 </a>  
