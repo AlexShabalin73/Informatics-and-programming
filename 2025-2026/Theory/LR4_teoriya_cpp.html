@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЛР4 — Теория: Строки в C++</title>
+  <style>
+    :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#94a3b8; --brand:#60a5fa; --ok:#34d399; --warn:#f59e0b; --err:#f87171; --code:#0b1021; --border:#1f2937; --radius:14px; }
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",Ubuntu,Cantarell,Helvetica,Arial;background:var(--bg);color:var(--text);line-height:1.55}
+    a{color:var(--brand)} a:hover{text-decoration:underline}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:0 auto;padding:24px}
+    nav{position:sticky;top:16px;align-self:start;background:var(--panel);padding:16px;border:1px solid var(--border);border-radius:var(--radius)}
+    nav h2{margin:0 0 8px;font-size:16px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+    nav ul{list-style:none;padding:0;margin:0}
+    nav a{display:block;padding:6px 8px;border-radius:8px}
+    nav a:hover{background:rgba(96,165,250,.12)}
+    main{background:var(--panel);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+    h1{margin-top:0;font-size:28px}
+    h2{margin-top:40px;font-size:22px;border-top:1px solid var(--border);padding-top:24px}
+    h3{margin-top:16px;font-size:18px;color:#cbd5e1}
+    p,li{color:#d1d5db}
+    .kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .lead{color:#e2e8f0;font-size:18px;margin:6px 0 12px}
+    .admonition{border:1px solid var(--border);border-left:4px solid var(--brand);background:rgba(96,165,250,.09);padding:12px 14px;border-radius:10px;margin:16px 0}
+    .admonition.tip{border-left-color:var(--ok);background:rgba(52,211,153,.08)}
+    .admonition.warn{border-left-color:var(--warn);background:rgba(245,158,11,.08)}
+    .admonition.err{border-left-color:var(--err);background:rgba(248,113,113,.08)}
+    .admonition .title{font-weight:700;margin-bottom:6px}
+    code, pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:14px;overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+    thead th{background:#0b1224}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    footer{color:#94a3b8;font-size:12px;margin-top:16px}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <h2>Содержание</h2>
+      <ul id="toc"></ul>
+    </nav>
+
+    <main>
+      <header>
+        <div class="kicker">Лабораторная работа 4 — теория</div>
+        <h1>Строки в C++: от <code>char</code> до <code>std::string</code></h1>
+        $1Буквы, коды, ввод строк и разбор текста. Разбираем <code>char</code>, ASCII/Unicode, различия <code>operator&gt;&gt;</code> и <code>getline</code>, ключевые методы <code>std::string</code>, проверку символов (<code>&lt;cctype&gt;</code>) и работу со строковыми потоками (<code>&lt;sstream&gt;</code>).$2
+      </header>
+
+      <section id="char">
+        <h2>0. Символьный тип <code>char</code> и таблица ASCII</h2>
+        <p><strong><code>char</code></strong> — это <em>целочисленный</em> тип на 1 байт (8 бит). Он хранит не «букву», а её <em>числовой код</em>. Буквы — это соглашение «какому числу какой знак соответствует».</p>
+        <div class="grid">
+          <div>
+            <h3>ASCII (American Standard Code for Information Interchange)</h3>
+            <ul>
+              <li>Первые <strong>128</strong> кодов (0–127) — универсальны: цифры, латинские буквы, знаки, управляющие символы (\n, \t).</li>
+              <li>Примеры: '0' = 48, 'A' = 65, 'a' = 97. Диапазоны непрерывные: <code>'A'..'Z'</code>, <code>'a'..'z'</code>, <code>'0'..'9'</code>.</li>
+              <li>Порядок «алфавитный» для ЛР4 — это просто <em>порядок кодов ASCII</em> (лексикографический порядок по кодам).</li>
+            </ul>
+<pre><code class="language-cpp">char c = 'A';
+std::cout &lt;&lt; c &lt;&lt; " " &lt;&lt; static_cast<int>(c) &lt;&lt; "\n"; // A 65
+</code></pre>
+          </div>
+          <div>
+            <h3>Откуда берутся «остальные символы»</h3>
+            <p>За пределами 0–127 начинается мир <strong>Unicode</strong> — общего набора символов всех языков. На диске/в памяти строки обычно в <em>UTF‑8</em>: символ кодируется от 1 до 4 байт. В <code>std::string</code> (UTF‑8) <em>один символ может занимать несколько байт</em>. Для задач ЛР4 мы работаем <em>с латиницей и цифрами</em>, то есть достаточно ASCII‑подмножества.</p>
+            <div class="admonition warn"><div class="title">Знак у <code>char</code></div>
+              <p><code>char</code> может быть знаковым или беззнаковым в зависимости от компилятора/платформы. Для функций из <code>&lt;cctype&gt;</code> (например, <code>isalpha</code>) безопасно приводить к <code>unsigned char</code>: <code>isalpha((unsigned char)c)</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="string-basics">
+        <h2>1. <code>std::string</code>: что это и чем отличается от C‑строки</h2>
+        <ul>
+          <li><strong><code>std::string</code></strong> — динамический контейнер из байтов (обычно UTF‑8). Хранит длину <code>size()</code>, умеет расти (<code>push_back</code>, <code>append</code>), предоставляет случайный доступ <code>operator[]</code>.</li>
+          <li><strong>C‑строка</strong> — это массив <code>char[]</code>, заканчивающийся нулевым байтом <code>'\0'</code>. С ней работают функции <code>strlen/strcmp/strcpy</code>.</li>
+          <li><code>string</code> не обязан хранить завершающий <code>'\0'</code> внутри логической длины и безопаснее в использовании.</li>
+        </ul>
+        <div class="admonition tip"><div class="title">Размер vs вместимость</div>
+          <p><code>str.size()</code> — число байтов в строке; <code>str.capacity()</code> — зарезервированная память. Как и у <code>vector</code>, при нехватке места строка перевыделяет буфер и копирует данные.</p>
+        </div>
+      </section>
+
+      <section id="input">
+        <h2>2. Ввод строк: <code>&gt;&gt;</code> против <code>getline</code></h2>
+        <div class="grid">
+          <div>
+            <h3><code>operator&gt;&gt;</code> (слово)</h3>
+            <ul>
+              <li>Читает <em>одно слово</em> до первого разделителя (пробел/таб/перевод строки).</li>
+              <li>Пропускает начальные пробелы автоматически.</li>
+              <li>Подходит для чтения токенов: чисел, отдельных слов.</li>
+            </ul>
+<pre><code class="language-cpp">std::string w; std::cin &gt;&gt; w; // "Hello" при вводе: Hello world
+</code></pre>
+          </div>
+          <div>
+            <h3><code>std::getline</code> (вся строка)</h3>
+            <ul>
+              <li>Читает <em>всю строку</em> до символа '\n' (по умолчанию). Препинание и пробелы остаются.</li>
+              <li>Умеет читать до произвольного разделителя: <code>getline(cin, s, ';')</code>.</li>
+              <li>Не пропускает начальные пробелы — они попадают в <code>s</code>.</li>
+            </ul>
+<pre><code class="language-cpp">std::string s; std::getline(std::cin, s); // "Hello world" целиком
+</code></pre>
+          </div>
+        </div>
+        <div class="admonition warn"><div class="title">Смешивание чисел и <code>getline</code></div>
+          <p>После <code>cin &gt;&gt; n</code> в потоке остаётся перевод строки. Следующий <code>getline</code> прочитает <em>пустую</em> строку. Решение: <code>std::cin.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(), '\n');</code> или <code>std::getline</code> использовать везде.</p>
+        </div>
+      </section>
+
+      <section id="cctype">
+        <h2>3. Классификация символов: <code>&lt;cctype&gt;</code></h2>
+        <p>Для задач ЛР4 нужно отличать цифры, буквы, знаки и т. п. В помощь — функции из <code>&lt;cctype&gt;</code> (работают на байтах ASCII):</p>
+        <div class="grid">
+          <div>
+            <ul>
+              <li><code>isalpha</code>, <code>isdigit</code>, <code>isalnum</code>, <code>ispunct</code>, <code>isspace</code>.</li>
+              <li><code>isupper</code>, <code>islower</code> — регистр.</li>
+              <li><code>toupper</code>, <code>tolower</code> — изменение регистра.</li>
+            </ul>
+          </div>
+          <div>
+<pre><code class="language-cpp">#include &lt;cctype&gt;
+bool isLatinUpper(char c){ return 'A' &lt;= c &amp;&amp; c &lt;= 'Z'; }
+bool isLatinLower(char c){ return 'a' &lt;= c &amp;&amp; c &lt;= 'z'; }
+bool isDigit(char c){ return '0' &lt;= c &amp;&amp; c &lt;= '9'; }
+// безопасно для &lt;cctype&gt;: isalpha((unsigned char)c)
+</code></pre>
+          </div>
+        </div>
+        <div class="admonition tip"><div class="title">Регулярные слова и палиндромы</div>
+          <ul>
+            <li><em>Регулярное слово</em> (по условию ЛР4) — только большие латинские буквы <code>A..Z</code>.</li>
+            <li><em>Палиндром</em> — читается одинаково слева направо и справа налево.</li>
+          </ul>
+<pre><code class="language-cpp">bool isRegular(const std::string &s){
+  if(s.empty()) return false;
+  for(char c: s) if(!( 'A' &lt;= c &amp;&amp; c &lt;= 'Z')) return false; return true;
+}
+bool isPalindrome(const std::string &s){
+  for(size_t i=0,j=s.size(); i&lt;j; ++i,--j) if(s[i]!=s[j-1]) return false; return true;
+}
+</code></pre>
+        </div>
+      </section>
+
+      <section id="sstream">
+        <h2>4. Строковые потоки <code>&lt;sstream&gt;</code>: когда и зачем</h2>
+        <p><strong><code>std::istringstream</code></strong> читает данные из <em>строки как из потока</em>,
+           <strong><code>std::ostringstream</code></strong> накапливает форматированный текст в строку,
+           <strong><code>std::stringstream</code></strong> объединяет оба режима. Это удобно, когда:</p>
+        <ul>
+          <li>нужно разобрать уже считанную <em>целую строку</em> (например, после <code>getline</code>);</li>
+          <li>вы хотите применить привычный синтаксис <code>&gt;&gt;</code> к содержимому строки;</li>
+          <li>нужно собрать строку с форматированием (ширина, точность) перед выводом/записью;</li>
+          <li>вы отделяете этапы: «считать строку» → «разобрать» → «проверить корректность».</li>
+        </ul>
+
+        <div class="grid">
+          <div>
+            <h3>4.1. Разбор чисел/слов из одной строки</h3>
+<pre><code class="language-cpp">#include &lt;sstream&gt;
+std::string line; std::getline(std::cin, line); // читаем всю строку
+std::istringstream in(line);
+int a, b; std::string word;
+if (in &gt;&gt; a &gt;&gt; b &gt;&gt; word) {
+    // разобрано успешно
+}
+// цикл «пока удаётся читать»
+in.clear(); in.seekg(0);
+int x; while (in &gt;&gt; x) { /* ... */ }
+</code></pre>
+          </div>
+          <div>
+            <h3>4.2. Пользовательский разделитель (один символ)</h3>
+            <p>Для простых форматов можно читать подстроки до разделителя:</p>
+<pre><code class="language-cpp">std::string csv = "10;20;30";
+std::istringstream iss(csv);
+std::string token;
+while (std::getline(iss, token, ';')) {
+    // token содержит фрагмент между точками с запятой
+}
+</code></pre>
+            <p>Если требуется набор разных разделителей или сложные правила —
+               используйте собственную логику разбора (посимвольно) или алгоритмы <code>find*</code>.
+               Это позволит избежать «готового решения» конкретной задачи.</p>
+          </div>
+        </div>
+
+        <h3>4.3. Форматирование в строку</h3>
+<pre><code class="language-cpp">#include &lt;iomanip&gt;
+std::ostringstream out;
+double v = 3.1415926535;
+out &lt;&lt; std::fixed &lt;&lt; std::setprecision(3) &lt;&lt; v; // "3.142"
+std::string s = out.str();
+</code></pre>
+
+        <div class="admonition warn"><div class="title">Состояние потока</div>
+          <ul>
+            <li>После неудачной попытки чтения выставляется флаг <code>fail()</code>. Для повторного разбора: <code>iss.clear()</code> и при необходимости <code>iss.seekg(позиция)</code> или <code>iss.str(новая_строка)</code>.</li>
+            <li>Строковые потоки удобны, но имеют накладные расходы. Для интенсивного парсинга по символам быстрее прямой проход по <code>std::string</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="methods">
+        <h2>5. Ключевые методы <code>std::string</code> с примерами</h2>
+        <div class="grid">
+          <div>
+            <h3>Размер, доступ, модификация</h3>
+<pre><code class="language-cpp">std::string s = "Hello";
+s.size(); s.empty(); s.clear();
+s.front(); s.back();
+s.push_back('!'); s.pop_back();
+s[1] = 'a'; // без проверки
+try { s.at(100) = 'X'; } catch(const std::out_of_range&amp;){}
+</code></pre>
+          </div>
+          <div>
+            <h3>Склейка и вставка</h3>
+<pre><code class="language-cpp">std::string a = "Hello", b = "World";
+a += " "+b;                 // конкатенация
+std::string t = a.substr(0,5); // "Hello"
+a.insert(5, ",");           // Hello, World
+a.erase(5, 1);                // убрать запятую
+// заменить подстроку
+size_t p = a.find("World");
+if(p != std::string::npos) a.replace(p, 5, "C++");
+</code></pre>
+          </div>
+          <div>
+            <h3>Поиск</h3>
+<pre><code class="language-cpp">size_t p1 = s.find("lo");        // первое вхождение
+size_t p2 = s.rfind("l");        // с конца
+size_t p3 = s.find_first_of("0123456789");
+size_t p4 = s.find_first_not_of("abc");
+if(p1 == std::string::npos) { /* не найдено */ }
+</code></pre>
+          </div>
+          <div>
+            <h3>Преобразование регистра</h3>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+std::string u = s; // копия
+std::transform(u.begin(), u.end(), u.begin(),
+               [](unsigned char c){ return std::toupper(c); });
+</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="numbers">
+        <h2>6. Числа и строки: искать, извлекать, форматировать</h2>
+        <ul>
+          <li><code>std::stoi/stol/stoll</code> — перевод префикса строки в число (считает знаки +/‑, основание 2..36). Бросают <code>std::invalid_argument</code> или <code>std::out_of_range</code>.</li>
+          <li><code>std::to_string</code> — число → строка.</li>
+          <li>Чтобы выделить числа из слова, пройдитесь по символам и собирайте подряд идущие цифры в отдельную строку.</li>
+        </ul>
+<pre><code class="language-cpp">bool in10_100(const std::string &w){
+  size_t i=0, j=0; bool ok=false; long long val=0;
+  while(i < w.size()){
+    while(i<w.size() &amp;&amp; !std::isdigit((unsigned char)w[i])) ++i;
+    j=i; while(j<w.size() &amp;&amp; std::isdigit((unsigned char)w[j])) ++j;
+    if(i<j){ val = std::stoll(w.substr(i,j-i)); if(10<=val &amp;&amp; val<=100) ok=true; }
+    i=j+1;
+  }
+  return ok;
+}
+</code></pre>
+      </section>
+
+      <section id="lexicographic">
+        <h2>7. Сравнение строк и «алфавитный порядок»</h2>
+        <p>Оператор <code>&lt;</code> у <code>std::string</code> делает <strong>лексикографическое</strong> сравнение по кодам байтов. Для латиницы это эквивалент «алфавитному» порядку ASCII, упомянутому в ЛР4.</p>
+<pre><code class="language-cpp">std::string a="ABC", b="ABD"; bool less = (a &lt; b); // true
+</code></pre>
+      </section>
+
+      <section id="files">
+        <h2>8. Работа с файлами: читать/писать строки и выравнивать вывод</h2>
+        <div class="grid">
+          <div>
+<pre><code class="language-cpp">#include &lt;fstream&gt;
+std::ifstream fin("text1.txt");
+std::string line; std::vector<std::string> lines;
+while(std::getline(fin, line)) lines.push_back(line);
+
+std::ofstream fout("number3.txt");
+for(const auto &x: lines) fout &lt;&lt; x &lt;&lt; "\n"; // сохранить разбиение на строки
+</code></pre>
+          </div>
+          <div>
+<pre><code class="language-cpp">#include &lt;iomanip&gt;
+int w = 10; std::string s = "abc";
+std::cout &lt;&lt; std::setw(w) &lt;&lt; std::right &lt;&lt; s << "\n"; // по правому краю
+// центрирование по ширине w
+auto center = [&](const std::string &t){
+  int pad = std::max(0, w - (int)t.size());
+  int left = pad/2, right = pad-left;
+  return std::string(left,' ') + t + std::string(right,' ');
+};
+std::cout << center(s) << "\n";
+</code></pre>
+          </div>
+        </div>
+        <p>Для переименования файла используйте <code>std::filesystem::rename(old, new)</code> (C++17).</p>
+      </section>
+
+      <section id="json-note">
+        <h2>9. Примечание к заданию про JSON</h2>
+        <p>Без сторонних библиотек можно собрать JSON вручную: экранировать <code>"</code> и <code>\</code>, соблюдать запятые и кавычки.</p>
+<pre><code class="language-cpp">std::ofstream out("events.json");
+out << "[\n";
+for(size_t i=0;i<events.size();++i){
+  const auto &e = events[i];
+  out << "  {\"type\":\"" << e.type << "\", \"ts\":" << e.ts << "}";
+  if(i+1<events.size()) out << ","; out << "\n";
+}
+out << "]\n";
+</code></pre>
+        <p>Для парсинга без библиотек используйте посимвольный разбор: состояния «вне строки», «внутри строки», «экранирование»; или ограничьтесь простыми структурами.</p>
+      </section>
+
+      <section id="lr4-ties">
+        <h2>10. Как эта теория соотносится с заданиями ЛР4</h2>
+        <ul>
+          <li>Определения «регулярное слово», «палиндром», порядок ASCII (см. §3, §7) — используются в задачах части 1–2.</li>
+          <li>Строковые потоки и извлечение чисел (см. §4, §6) — задачи с подсчётами/фильтрами по словам.</li>
+          <li>Выравнивание текста и работа с файлами (см. §8) — часть 3 (форматирование вывода, объединение файлов, переименование).</li>
+          <li>Принципы JSON без сторонних библиотек (см. §9) — часть 4.</li>
+        </ul>
+      </section>
+
+      <section id="checklist">
+        <h2>11. Мини‑чек‑лист перед сдачей ЛР4</h2>
+        <ul>
+          <li>Корректно читается ввод: там, где нужны строки с пробелами — используйте <code>getline</code>.</li>
+          <li>Разделители точно совпадают с заданием: <code>"_.,;:\n\t!?"</code> (+ пробел при необходимости).</li>
+          <li>Проверка символов — через диапазоны ASCII или <code>&lt;cctype&gt;</code> с приведением к <code>unsigned char</code>.</li>
+          <li>Палиндромы/регулярные слова проверяются корректно.</li>
+          <li>Файлы читаются/пишутся построчно, разбиение на строки сохраняется.</li>
+        </ul>
+      </section>
+
+      <footer>Версия страницы: ЛР4 — v0.1 (теория; без решений). Подготовлено по формулировкам заданий ЛР4.</footer>
+    </main>
+  </div>
+
+  <script>
+    (function buildTOC(){
+      const toc = document.getElementById('toc');
+      const headings = document.querySelectorAll('main h2, main h3');
+      headings.forEach(h => {
+        const id = h.id || h.textContent.trim().toLowerCase().replace(/[^a-zа-я0-9]+/gi,'-');
+        h.id = id; const li = document.createElement('li');
+        if(h.tagName === 'H3') li.style.paddingLeft = '14px';
+        const a = document.createElement('a'); a.href = '#' + id; a.textContent = h.textContent;
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
