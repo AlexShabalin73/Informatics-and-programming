@@ -26,6 +26,7 @@ https://informatics.msk.ru/mod/statements/view.php?id=104441#1
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR1_teoriya_cpp.html">Теория ЛР1 </a>  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR2_teoriya_cpp.html">Теория ЛР2 </a>  
 <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR3_teoriya_cpp.html">Теория ЛР3 </a>  
+<a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/Theory/LR4_teoriya_cpp.html">Теория ЛР4 </a>  
 
 ### Полезные курсы
 **Курс ВВедение в программирование (С++)** от академии яндекса https://stepik.org/course/363/syllabus  
