@@ -10,6 +10,7 @@
 ЛР 2: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR2.pdf">Лабораторная работа 2 </a>  
 ЛР 3: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR3.pdf">Лабораторная работа 3 </a>  
 ЛР 4: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR4.pdf">Лабораторная работа 4 </a>  
+Итоговая ЛР: <a href = "https://github.com/AlexShabalin73/Informatics-and-programming/blob/main/2025-2026/LR/LR_itog.pdf">Итоговая лабораторная работа </a>  
 
 ### Дедлайн
 Лабораторная работа 0: 23.09.2025  
@@ -17,6 +18,7 @@
 Лабораторная работа 2: 28.10.2025  
 Лабораторная работа 3: 11.11.2025  
 Лабораторная работа 4: 25.11.2025  
+Итоговая лабораторная работа: 29.12.2025  
 
 ### Семинары  
 https://informatics.msk.ru/mod/statements/view.php?id=66776#1  
